@@ -1,0 +1,120 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Build application
+        run: npm run build
+
+      - name: Run Jest unit tests
+        run: npm test -- --coverage --watchAll=false
+
+      - name: Upload Jest coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+      - name: Install JSON Server globally
+        run: npm install -g json-server
+
+      - name: Start JSON Server
+        run: |
+          json-server --watch db.json --port 3000 &
+          echo $! > json-server.pid
+        env:
+          CI: true
+
+      - name: Wait for JSON Server to be ready
+        run: |
+          timeout 30 bash -c 'until curl -f http://localhost:3000/tasks; do sleep 1; done'
+
+      - name: Start React application
+        run: |
+          npm run dev &
+          echo $! > vite-server.pid
+        env:
+          CI: true
+
+      - name: Wait for React app to be ready
+        run: |
+          timeout 60 bash -c 'until curl -f http://localhost:5173; do sleep 1; done'
+
+      - name: Run Cypress E2E tests
+        uses: cypress-io/github-action@v6
+        with:
+          # We don't need to install dependencies or start the app
+          # since we already did that in previous steps
+          install: false
+          start: ''
+          wait-on: 'http://localhost:5173, http://localhost:3000/tasks'
+          wait-on-timeout: 120
+          browser: chrome
+          headless: true
+          # Record to Cypress Cloud (optional - remove if no project ID)
+          # record: true
+        env:
+          # Cypress Cloud project ID (optional - set in GitHub secrets)
+          # CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+          # Cypress Cloud record key (optional - set in GitHub secrets)
+          # CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # GitHub token for Cypress GitHub integration
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Cypress screenshots on failure
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          retention-days: 7
+
+      - name: Upload Cypress videos on failure
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          retention-days: 7
+
+      - name: Cleanup background processes
+        if: always()
+        run: |
+          if [ -f json-server.pid ]; then
+            kill $(cat json-server.pid) || true
+            rm json-server.pid
+          fi
+          if [ -f vite-server.pid ]; then
+            kill $(cat vite-server.pid) || true
+            rm vite-server.pid
+          fi 
