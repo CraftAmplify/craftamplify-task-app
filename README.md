@@ -214,4 +214,7 @@ The application is built with modern development practices:
 
 ## Contributing
 
-This is a sample application designed for learning and demonstration purposes. Feel free to experiment with the code and explore different features and implementations.
+This is a sample application designed for learning and demonstration purposes. Feel free to experiment with the code and explore different features and implementations. 
+
+
+
