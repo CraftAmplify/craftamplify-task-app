@@ -92,7 +92,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Cypress screenshots on failure
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-screenshots
@@ -100,7 +100,7 @@ jobs:
           retention-days: 7
 
       - name: Upload Cypress videos on failure
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-videos
