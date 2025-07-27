@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { AddTaskForm } from '@/components/AddTaskForm'
 import { useSwipeToDelete } from '@/hooks/useSwipeToDelete'
 
