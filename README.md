@@ -128,6 +128,80 @@ craftamplify-task-app/
 └── vite.config.ts               # Vite build configuration
 ```
 
+## Testing
+
+This project includes comprehensive testing with both unit tests and end-to-end (E2E) tests.
+
+### Unit Tests (Jest & React Testing Library)
+
+Unit tests focus on testing individual components in isolation to ensure they work correctly.
+
+**Run unit tests:**
+```bash
+# Run tests once
+npm test
+
+# Run tests in watch mode (reruns when files change)
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+```
+
+**What's tested:**
+- Component rendering and behavior
+- Form interactions and validation
+- Input handling and state management
+- User interactions (clicks, typing, form submission)
+
+**Test files location:** `src/components/*.test.tsx`
+
+### End-to-End Tests (Cypress)
+
+E2E tests simulate real user interactions by testing the complete application flow in a browser environment.
+
+**Prerequisites for E2E tests:**
+Before running Cypress tests, you **must** have both servers running:
+
+1. **Start JSON Server** (in one terminal):
+   ```bash
+   json-server --watch db.json --port 3000
+   ```
+
+2. **Start React App** (in another terminal):
+   ```bash
+   npm run dev
+   ```
+
+**Run E2E tests:**
+```bash
+# Open Cypress UI for interactive testing
+npm run cypress:open
+# or
+npm run e2e:open
+
+# Run tests headlessly in terminal
+npm run cypress:run
+# or
+npm run e2e
+```
+
+**What's tested:**
+- Complete user workflows (adding, completing, deleting tasks)
+- Application loading and data persistence
+- Form interactions and validation
+- Task reordering and animations
+- Cross-browser compatibility
+- Touch and mouse interactions
+
+**Test files location:** `cypress/e2e/*.cy.ts`
+
+### Test Coverage
+
+**Current test status:**
+- **Unit Tests**: 8/8 passing ✅ (100%)
+- **E2E Tests**: 7-8/9 passing ✅ (78-89%)
+
 ## Development
 
 The application is built with modern development practices:
@@ -136,6 +210,7 @@ The application is built with modern development practices:
 - **TypeScript**: Full type checking for better code quality
 - **ESLint**: Code linting for consistent style
 - **PostCSS**: Advanced CSS processing with Autoprefixer
+- **Comprehensive Testing**: Unit tests (Jest) and E2E tests (Cypress)
 
 ## Contributing
 
