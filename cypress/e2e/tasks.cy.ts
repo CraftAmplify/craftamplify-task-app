@@ -24,7 +24,7 @@ describe('Task List Application', () => {
         'Task added with Enter key'
       ]
       
-      tasks.forEach((task: any) => {
+      tasks.forEach((task: { id: string; text: string }) => {
         if (testTaskPatterns.some(pattern => task.text.includes(pattern))) {
           cy.request('DELETE', `http://localhost:3000/tasks/${task.id}`)
             .then(() => {

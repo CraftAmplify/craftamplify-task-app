@@ -24,16 +24,6 @@
       "id": "5",
       "text": "Understand how to make a small UI fix in a mock codebase",
       "completed": true
-    },
-    {
-      "id": "b69a",
-      "text": "Complete E2E testing setup",
-      "completed": false
-    },
-    {
-      "id": "aeaf",
-      "text": "Task added with Enter key",
-      "completed": false
     }
   ]
 }
