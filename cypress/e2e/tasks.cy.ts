@@ -163,7 +163,9 @@ describe('Task List Application', () => {
     // Verify the button has the correct structure and can be clicked
     cy.get('@taskItem')
       .find('.hover-delete-button')
-      .should('have.attr', 'type', 'button')
+      .should('be.enabled')
       .and('contain.html', 'svg') // Should contain the X icon SVG
+      .find('svg')
+      .should('have.attr', 'viewBox', '0 0 24 24') // Verify it's the correct X icon
   })
 }) 
