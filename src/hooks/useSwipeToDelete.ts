@@ -2,7 +2,7 @@ import { useRef, useCallback, useEffect } from 'react'
 
 interface UseSwipeToDeleteProps {
   onDelete: () => void
-  onSwipeOpen: (elementRef: React.RefObject<HTMLDivElement>) => void
+  onSwipeOpen: (elementRef: React.RefObject<HTMLDivElement | null>) => void
 }
 
 export function useSwipeToDelete({ onDelete, onSwipeOpen }: UseSwipeToDeleteProps) {

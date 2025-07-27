@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { AddTaskForm } from '@/components/AddTaskForm'
 import { useSwipeToDelete } from '@/hooks/useSwipeToDelete'
 
@@ -21,7 +21,7 @@ function TaskItem({
   task: Task; 
   onToggle: (id: string, completed: boolean) => void; 
   onDelete: (id: string) => void; 
-  onSwipeOpen: (elementRef: React.RefObject<HTMLDivElement>) => void;
+  onSwipeOpen: (elementRef: React.RefObject<HTMLDivElement | null>) => void;
   isDeleting: boolean;
   isMoving: boolean;
 }) {
@@ -87,7 +87,7 @@ function App() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [openElementRef, setOpenElementRef] = useState<React.RefObject<HTMLDivElement> | null>(null)
+  const [openElementRef, setOpenElementRef] = useState<React.RefObject<HTMLDivElement | null> | null>(null)
   const [deletingTasks, setDeletingTasks] = useState<Set<string>>(new Set())
   const [movingTasks, setMovingTasks] = useState<Set<string>>(new Set())
 
@@ -308,7 +308,7 @@ function App() {
     }
   }
 
-  const handleSwipeOpen = (elementRef: React.RefObject<HTMLDivElement>) => {
+  const handleSwipeOpen = (elementRef: React.RefObject<HTMLDivElement | null>) => {
     // Close the previously open element
     if (openElementRef && openElementRef.current && openElementRef !== elementRef) {
       openElementRef.current.classList.remove('swiped')
@@ -317,8 +317,10 @@ function App() {
         taskContent.style.transform = 'translateX(0)'
       }
     }
-    // Set the new open element
-    setOpenElementRef(elementRef)
+    // Set the new open element (only if it has a current element)
+    if (elementRef.current) {
+      setOpenElementRef(elementRef)
+    }
   }
 
   // Reorder tasks: active first, then completed
