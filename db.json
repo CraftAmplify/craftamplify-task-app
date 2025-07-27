@@ -13,17 +13,17 @@
     {
       "id": "3",
       "text": "Prompt Cursor to generate a basic HTML structure",
-      "completed": true
+      "completed": false
     },
     {
       "id": "4",
       "text": "Use AI to apply Tailwind CSS styles to a UI component",
-      "completed": true
+      "completed": false
     },
     {
       "id": "5",
       "text": "Understand how to make a small UI fix in a mock codebase",
-      "completed": true
+      "completed": false
     }
   ]
 }

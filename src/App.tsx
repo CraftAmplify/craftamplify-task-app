@@ -301,7 +301,7 @@ function App() {
           </div>
           
           {/* Tasks Section */}
-          <div>
+      <div>
             <h2 className="font-montserrat text-base font-normal text-gray-500 leading-7 tracking-tight">
               Tasks
             </h2>
@@ -347,7 +347,7 @@ function App() {
           }}
         ></div>
       </div>
-    </div>
+      </div>
   )
 }
 
