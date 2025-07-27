@@ -80,7 +80,6 @@ jobs:
           wait-on: 'http://localhost:5173, http://localhost:3000/tasks'
           wait-on-timeout: 120
           browser: chrome
-          headless: true
           # Record to Cypress Cloud (optional - remove if no project ID)
           # record: true
         env:
