@@ -1,88 +1,24 @@
 import { useState, useEffect } from 'react'
 import { AddTaskForm } from '@/components/AddTaskForm'
-import { useSwipeToDelete } from '@/hooks/useSwipeToDelete'
+import { TaskItem } from '@/components/TaskItem'
+import { TaskService, TaskServiceError, type Task } from '@/services/taskService'
+import { ANIMATION, LOADING_MESSAGES } from '@/constants'
 
-interface Task {
-  id: string
-  text: string
-  completed: boolean
-}
-
-const API_BASE_URL = 'http://localhost:3000'
-
-function TaskItem({ 
-  task, 
-  onToggle, 
-  onDelete, 
-  onSwipeOpen,
-  isDeleting,
-  isMoving
-}: { 
-  task: Task; 
-  onToggle: (id: string, completed: boolean) => void; 
-  onDelete: (id: string) => void; 
-  onSwipeOpen: (elementRef: React.RefObject<HTMLDivElement | null>) => void;
-  isDeleting: boolean;
-  isMoving: boolean;
-}) {
-  const swipeHandlers = useSwipeToDelete({ 
-    onDelete: () => onDelete(task.id),
-    onSwipeOpen: onSwipeOpen
-  })
-
-  return (
-    <div
-      ref={swipeHandlers.elementRef}
-      className={`task-item ${isDeleting ? 'deleting' : ''} ${isMoving ? 'moving' : ''}`}
-      onTouchStart={swipeHandlers.handleTouchStart}
-      onTouchMove={swipeHandlers.handleTouchMove}
-      onTouchEnd={swipeHandlers.handleTouchEnd}
-    >
-      <div className="task-content flex items-start gap-2 p-2 rounded cursor-pointer" onClick={swipeHandlers.handleTaskClick}>
-        <div
-          className={`checkbox-custom ${task.completed ? 'checked' : ''}`}
-          onClick={(e) => {
-            e.stopPropagation()
-            onToggle(task.id, task.completed)
-          }}
-        >
-          {task.completed && (
-            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-            </svg>
-          )}
-        </div>
-        <span className={`font-inter text-base leading-6 task-text flex-1 ${task.completed ? 'completed-task' : ''}`}>
-          {task.text}
-        </span>
-      </div>
-      
-      {/* Swipe delete button (for touch devices) */}
-      <button
-        className="delete-button"
-        onClick={swipeHandlers.handleDeleteClick}
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-        </svg>
-      </button>
-
-      {/* Hover delete button (for mouse devices) */}
-      <button
-        className="hover-delete-button"
-        onClick={(e) => {
-          e.stopPropagation()
-          onDelete(task.id)
-        }}
-      >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </div>
-  )
-}
-
+/**
+ * Main App Component
+ * 
+ * The root component that manages the task list application state and renders
+ * the main UI including the header, task form, and task list.
+ * 
+ * Features:
+ * - Task CRUD operations via TaskService
+ * - Loading and error state management
+ * - Task reordering (active tasks first, then completed)
+ * - Smooth animations for task state changes
+ * - Swipe-to-delete functionality coordination
+ * 
+ * @returns JSX element representing the complete task application
+ */
 function App() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
@@ -96,52 +32,61 @@ function App() {
     fetchTasks()
   }, [])
 
+  /**
+   * Fetches all tasks from the API using TaskService
+   * Handles loading states and error conditions with user-friendly messages
+   */
   const fetchTasks = async () => {
     try {
       setLoading(true)
       setError(null)
-      const response = await fetch(`${API_BASE_URL}/tasks`)
-      if (!response.ok) {
-        throw new Error('Failed to fetch tasks')
-      }
-      const data = await response.json()
-      setTasks(data)
+      const tasks = await TaskService.fetchTasks()
+      setTasks(tasks)
     } catch (err) {
       console.error('Error fetching tasks:', err)
-      setError('Failed to load tasks. Please try again.')
+      if (err instanceof TaskServiceError) {
+        setError(err.message)
+      } else {
+        setError('An unexpected error occurred. Please try again.')
+      }
     } finally {
       setLoading(false)
     }
   }
 
+  /**
+   * Handles adding a new task to the list
+   * Uses TaskService to create the task and updates local state
+   * 
+   * @param taskText - The text content of the new task
+   */
   const handleAddTask = async (taskText: string) => {
     try {
       setError(null)
-      const newTask = {
+      const newTaskData = {
         text: taskText,
         completed: false
       }
 
-      const response = await fetch(`${API_BASE_URL}/tasks`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newTask),
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to add task')
-      }
-
-      const addedTask = await response.json()
+      const addedTask = await TaskService.createTask(newTaskData)
       setTasks(prevTasks => [addedTask, ...prevTasks]) // Add to beginning like the HTML version
     } catch (err) {
       console.error('Error adding task:', err)
-      setError('Failed to add task. Please try again.')
+      if (err instanceof TaskServiceError) {
+        setError(err.message)
+      } else {
+        setError('Failed to add task. Please try again.')
+      }
     }
   }
 
+  /**
+   * Handles toggling a task's completion status
+   * Includes smart reordering logic and smooth animations when tasks change position
+   * 
+   * @param taskId - The ID of the task to toggle
+   * @param completed - The current completion status of the task
+   */
   const handleToggleTask = async (taskId: string, completed: boolean) => {
     try {
       setError(null)
@@ -201,17 +146,7 @@ function App() {
         
         // Wait for animation to complete, then update and reorder
         setTimeout(async () => {
-          const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ completed: !completed }),
-          })
-
-          if (!response.ok) {
-            throw new Error('Failed to update task')
-          }
+          await TaskService.updateTask(taskId, { completed: !completed })
 
           // Update the task completion status and reorder
           setTasks(newOrder)
@@ -224,20 +159,10 @@ function App() {
               return newSet
             })
           }, 50)
-        }, 150) // Half the animation time for move-out
+        }, ANIMATION.MOVE_DURATION) // Animation duration for move-out
       } else {
         // No position change, just update the completion status
-        const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ completed: !completed }),
-        })
-
-        if (!response.ok) {
-          throw new Error('Failed to update task')
-        }
+        await TaskService.updateTask(taskId, { completed: !completed })
 
         setTasks(prevTasks =>
           prevTasks.map(task =>
@@ -248,7 +173,11 @@ function App() {
       
     } catch (err) {
       console.error('Error updating task:', err)
-      setError('Failed to update task. Please try again.')
+      if (err instanceof TaskServiceError) {
+        setError(err.message)
+      } else {
+        setError('Failed to update task. Please try again.')
+      }
       // Remove from moving state if there was an error
       setMovingTasks(prev => {
         const newSet = new Set(prev)
@@ -258,6 +187,12 @@ function App() {
     }
   }
 
+  /**
+   * Handles deleting a task from the list
+   * Includes smooth deletion animation before removing from state
+   * 
+   * @param taskId - The ID of the task to delete
+   */
   const handleDeleteTask = async (taskId: string) => {
     try {
       setError(null)
@@ -277,13 +212,7 @@ function App() {
       
       // Wait for animation to complete
       setTimeout(async () => {
-        const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
-          method: 'DELETE',
-        })
-
-        if (!response.ok) {
-          throw new Error('Failed to delete task')
-        }
+        await TaskService.deleteTask(taskId)
 
         setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId))
         setDeletingTasks(prev => {
@@ -294,11 +223,15 @@ function App() {
         
         // Clear the open element reference when a task is deleted
         setOpenElementRef(null)
-      }, 300) // Match the CSS animation duration
+              }, ANIMATION.DELETE_DURATION) // Match the CSS animation duration
       
     } catch (err) {
       console.error('Error deleting task:', err)
-      setError('Failed to delete task. Please try again.')
+      if (err instanceof TaskServiceError) {
+        setError(err.message)
+      } else {
+        setError('Failed to delete task. Please try again.')
+      }
       // Remove from deleting state if there was an error
       setDeletingTasks(prev => {
         const newSet = new Set(prev)
@@ -308,6 +241,12 @@ function App() {
     }
   }
 
+  /**
+   * Handles opening a swipe-to-delete action
+   * Ensures only one delete button is visible at a time by closing others
+   * 
+   * @param elementRef - Reference to the element that was swiped
+   */
   const handleSwipeOpen = (elementRef: React.RefObject<HTMLDivElement | null>) => {
     // Close the previously open element
     if (openElementRef && openElementRef.current && openElementRef !== elementRef) {
@@ -323,7 +262,13 @@ function App() {
     }
   }
 
-  // Reorder tasks: active first, then completed
+  /**
+   * Reorders tasks to show active tasks first, then completed tasks
+   * This provides a better user experience by prioritizing actionable items
+   * 
+   * @param tasks - Array of tasks to reorder
+   * @returns Reordered array with active tasks first, then completed tasks
+   */
   const reorderTasks = (tasks: Task[]) => {
     const activeTasks = tasks.filter(t => !t.completed)
     const completedTasks = tasks.filter(t => t.completed)
@@ -356,7 +301,7 @@ function App() {
           </div>
           
           {/* Tasks Section */}
-          <div>
+      <div>
             <h2 className="font-montserrat text-base font-normal text-gray-500 leading-7 tracking-tight">
               Tasks
             </h2>
@@ -365,7 +310,7 @@ function App() {
             <div className="space-y-2">
               {loading ? (
                 <div className="text-center py-8">
-                  <p className="text-gray-500">Loading tasks...</p>
+                  <p className="text-gray-500">{LOADING_MESSAGES.LOADING_TASKS}</p>
                 </div>
               ) : orderedTasks.length === 0 ? (
                 <p className="text-gray-500 text-center py-8">No tasks to display</p>
@@ -402,7 +347,7 @@ function App() {
           }}
         ></div>
       </div>
-    </div>
+      </div>
   )
 }
 

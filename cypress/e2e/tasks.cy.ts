@@ -2,8 +2,37 @@
 
 describe('Task List Application', () => {
   beforeEach(() => {
-    // Visit the application before each test
-    cy.visit('/')
+    // Wait for servers to be ready
+    cy.wait(2000)
+    
+    // Try to visit with retry logic
+    cy.visit('/', { timeout: 30000 })
+    
+    // Wait for the page to be fully loaded
+    cy.get('body', { timeout: 10000 }).should('be.visible')
+  })
+
+  after(() => {
+    // Clean up any test tasks that were created during the test run
+    cy.log('Cleaning up test tasks...')
+    
+    // Get all tasks and delete any that match our test patterns
+    cy.request('GET', 'http://localhost:3000/tasks').then((response) => {
+      const tasks = response.body
+      const testTaskPatterns = [
+        'Complete E2E testing setup',
+        'Task added with Enter key'
+      ]
+      
+      tasks.forEach((task: { id: string; text: string }) => {
+        if (testTaskPatterns.some(pattern => task.text.includes(pattern))) {
+          cy.request('DELETE', `http://localhost:3000/tasks/${task.id}`)
+            .then(() => {
+              cy.log(`Deleted test task: ${task.text}`)
+            })
+        }
+      })
+    })
   })
 
   it('should load the application and display initial tasks', () => {
@@ -75,6 +104,8 @@ describe('Task List Application', () => {
     // Verify the new task appears in the list
     cy.contains('Complete E2E testing setup').should('be.visible')
     
+
+    
     // Verify the input field is cleared
     inputField.should('have.value', '')
   })
@@ -90,6 +121,8 @@ describe('Task List Application', () => {
     
     // Verify the new task appears in the list
     cy.contains('Task added with Enter key').should('be.visible')
+    
+
     
     // Verify the input field is cleared
     inputField.should('have.value', '')

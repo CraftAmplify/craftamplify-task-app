@@ -13,127 +13,17 @@
     {
       "id": "3",
       "text": "Prompt Cursor to generate a basic HTML structure",
-      "completed": true
+      "completed": false
     },
     {
       "id": "4",
       "text": "Use AI to apply Tailwind CSS styles to a UI component",
-      "completed": true
+      "completed": false
     },
     {
       "id": "5",
       "text": "Understand how to make a small UI fix in a mock codebase",
-      "completed": true
-    },
-    {
-      "id": "d8c8",
-      "text": "Complete E2E testing setup",
-      "completed": true
-    },
-    {
-      "id": "76a6",
-      "text": "Complete E2E testing setup",
-      "completed": true
-    },
-    {
-      "id": "96d8",
-      "text": "Complete E2E testing setup",
       "completed": false
-    },
-    {
-      "id": "e349",
-      "text": "Task added with Enter key",
-      "completed": false
-    },
-    {
-      "id": "f114",
-      "text": "Complete E2E testing setup",
-      "completed": false
-    },
-    {
-      "id": "3b15",
-      "text": "Task added with Enter key",
-      "completed": false
-    },
-    {
-      "id": "9595",
-      "text": "Complete E2E testing setup",
-      "completed": false
-    },
-    {
-      "id": "e53e",
-      "text": "Task added with Enter key",
-      "completed": false
-    },
-    {
-      "id": "f49e",
-      "text": "Complete E2E testing setup",
-      "completed": false
-    },
-    {
-      "id": "86a7",
-      "text": "Task added with Enter key",
-      "completed": false
-    },
-    {
-      "id": "3e6d",
-      "text": "Complete E2E testing setup",
-      "completed": false
-    },
-    {
-      "id": "2e88",
-      "text": "Task added with Enter key",
-      "completed": false
-    },
-    {
-      "id": "8cc1",
-      "text": "Complete E2E testing setup",
-      "completed": false
-    },
-    {
-      "id": "bf1f",
-      "text": "Task added with Enter key",
-      "completed": false
-    },
-    {
-      "id": "7737",
-      "text": "Complete E2E testing setup",
-      "completed": false
-    },
-    {
-      "id": "5a27",
-      "text": "Task added with Enter key",
-      "completed": false
-    },
-    {
-      "id": "afb1",
-      "text": "Complete E2E testing setup",
-      "completed": false
-    },
-    {
-      "id": "da8c",
-      "text": "Task added with Enter key",
-      "completed": false
-    },
-    {
-      "id": "603e",
-      "text": "Complete E2E testing setup",
-      "completed": false
-    },
-    {
-      "id": "2db2",
-      "text": "Task added with Enter key",
-      "completed": false
-    },
-    {
-      "id": "2c8f",
-      "text": "Complete E2E testing setup",
-      "completed": false
-    },
-    {
-      "id": "8a81",
-      "text": "Task added with Enter key",
-      "completed": false
-    }
+    } 
   ]
 }
