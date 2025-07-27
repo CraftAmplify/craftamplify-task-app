@@ -1,12 +1,38 @@
 import { useState } from 'react'
 
+/**
+ * Props interface for the AddTaskForm component
+ */
 interface AddTaskFormProps {
+  /** Callback function executed when a new task is submitted */
   onAddTask: (task: string) => void
 }
 
+/**
+ * AddTaskForm Component
+ * 
+ * Provides a form interface for adding new tasks to the task list.
+ * Features input validation, proper form submission handling, and
+ * automatic input clearing after successful submission.
+ * 
+ * Features:
+ * - Real-time input validation (trims whitespace)
+ * - Submit on Enter key or button click
+ * - Automatic input clearing after submission
+ * - Disabled state for empty inputs
+ * 
+ * @param props - The component props
+ * @returns JSX element representing the task input form
+ */
 export function AddTaskForm({ onAddTask }: AddTaskFormProps) {
+  /** Current value of the task input field */
   const [taskText, setTaskText] = useState('')
 
+  /**
+   * Handles form submission
+   * Prevents default form behavior, validates input, and calls onAddTask
+   * Clears the input field after successful submission
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (taskText.trim()) {
