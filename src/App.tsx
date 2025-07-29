@@ -339,7 +339,7 @@ function App() {
         <div 
           className="w-full"
           style={{
-            backgroundImage: "url('http://localhost:3845/assets/55b850d72b5e55684be113c506ce31b75e28f03a.png')",
+            backgroundImage: "url('/footer-image.png')",
             backgroundSize: '100% auto',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center bottom',
