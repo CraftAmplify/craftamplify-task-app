@@ -166,7 +166,7 @@ describe('Task List Application', () => {
       .first()
       .parent()
       .parent()
-      .find('.checkbox-custom')
+      .find('[data-slot="checkbox"]')
       .click({ force: true })
     
     // Wait for the animation to complete
