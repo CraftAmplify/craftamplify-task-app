@@ -13,11 +13,11 @@
     {
       "id": "3",
       "text": "Prompt Cursor to generate a basic HTML structure",
-      "completed": true
+      "completed": false
     },
     {
       "id": "4",
-      "text": "Use AI to apply Tailwind CSS styles to a UI component",
+      "text": "Use AI to apply design system styles to a UI component",
       "completed": false
     },
     {
