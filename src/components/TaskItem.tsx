@@ -1,6 +1,7 @@
 import React from 'react'
 import type { Task } from '@/services/taskService'
 import { useSwipeToDelete } from '@/hooks/useSwipeToDelete'
+import { Checkbox } from './ui/checkbox'
 
 /**
  * Props interface for the TaskItem component
@@ -77,30 +78,14 @@ export function TaskItem({
         className="task-content flex items-start gap-2 p-2 rounded cursor-pointer" 
         onClick={swipeHandlers.handleTaskClick}
       >
-        {/* Custom checkbox for task completion */}
-        <div
-          className={`checkbox-custom ${task.completed ? 'checked' : ''}`}
+        {/* Design system checkbox for task completion */}
+        <Checkbox
+          checked={task.completed}
+          onCheckedChange={() => onToggle(task.id, task.completed)}
           onClick={handleCheckboxClick}
-          role="checkbox"
-          aria-checked={task.completed}
+          className="mt-1"
           aria-label={`Mark task "${task.text}" as ${task.completed ? 'incomplete' : 'complete'}`}
-          tabIndex={0}
-        >
-          {task.completed && (
-            <svg 
-              className="w-3 h-3 text-white" 
-              fill="currentColor" 
-              viewBox="0 0 20 20"
-              aria-hidden="true"
-            >
-              <path 
-                fillRule="evenodd" 
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" 
-                clipRule="evenodd" 
-              />
-            </svg>
-          )}
-        </div>
+        />
 
         {/* Task text with conditional styling for completed tasks */}
         <span 

@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Button } from './ui/button'
+import { Input } from './ui/input'
 
 /**
  * Props interface for the AddTaskForm component
@@ -8,22 +10,6 @@ interface AddTaskFormProps {
   onAddTask: (task: string) => void
 }
 
-/**
- * AddTaskForm Component
- * 
- * Provides a form interface for adding new tasks to the task list.
- * Features input validation, proper form submission handling, and
- * automatic input clearing after successful submission.
- * 
- * Features:
- * - Real-time input validation (trims whitespace)
- * - Submit on Enter key or button click
- * - Automatic input clearing after submission
- * - Disabled state for empty inputs
- * 
- * @param props - The component props
- * @returns JSX element representing the task input form
- */
 export function AddTaskForm({ onAddTask }: AddTaskFormProps) {
   /** Current value of the task input field */
   const [taskText, setTaskText] = useState('')
@@ -44,21 +30,21 @@ export function AddTaskForm({ onAddTask }: AddTaskFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex gap-2">
       <div className="flex-1">
-        <input
+        <Input
           type="text"
           placeholder="Add a new task..."
           value={taskText}
           onChange={(e) => setTaskText(e.target.value)}
-          className="w-full border border-gray-250 rounded-md px-3 py-2 font-inter text-base focus:outline-none focus:border-craft-pink focus:ring-2 focus:ring-craft-pink/10 transition-colors"
         />
       </div>
-      <button
+      <Button
         type="submit"
         disabled={!taskText.trim()}
-        className="bg-craft-pink text-white border-none rounded-md px-4 py-2 font-inter font-medium text-sm cursor-pointer transition-colors hover:bg-[#a4129a] disabled:bg-gray-250 disabled:cursor-not-allowed"
+        variant="craft"
+        size="default"
       >
         Add
-      </button>
+      </Button>
     </form>
   )
 } 
