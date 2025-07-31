@@ -35,13 +35,14 @@ export function AddTaskForm({ onAddTask }: AddTaskFormProps) {
           placeholder="Add a new task..."
           value={taskText}
           onChange={(e) => setTaskText(e.target.value)}
+          inputSize="lg"
         />
       </div>
       <Button
         type="submit"
         disabled={!taskText.trim()}
         variant="craft"
-        size="default"
+        size="lg"
       >
         Add
       </Button>
