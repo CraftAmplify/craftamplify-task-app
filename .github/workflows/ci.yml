@@ -58,6 +58,8 @@ jobs:
       - name: Wait for JSON Server to be ready
         run: |
           timeout 30 bash -c 'until curl -f http://localhost:3000/tasks; do sleep 1; done'
+          echo "JSON Server is ready"
+          curl -s http://localhost:3000/tasks | jq .
 
       - name: Start React application
         run: |
@@ -69,6 +71,8 @@ jobs:
       - name: Wait for React app to be ready
         run: |
           timeout 60 bash -c 'until curl -f http://localhost:5173; do sleep 1; done'
+          echo "React app is ready"
+          curl -s http://localhost:5173 | head -20
 
       - name: Run Cypress E2E tests
         uses: cypress-io/github-action@v6
