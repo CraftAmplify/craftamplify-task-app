@@ -51,7 +51,7 @@ describe('Task List Application', () => {
       
       // Log the tasks from the database
       cy.log(`Database contains ${response.body.length} tasks:`)
-      response.body.forEach((task: any, index: number) => {
+      response.body.forEach((task: { text: string; completed: boolean }, index: number) => {
         cy.log(`Task ${index + 1}: ${task.text} (completed: ${task.completed})`)
       })
     })
