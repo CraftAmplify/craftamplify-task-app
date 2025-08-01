@@ -89,7 +89,7 @@ export function TaskItem({
 
         {/* Task text with conditional styling for completed tasks */}
         <span 
-          className={`font-inter text-base leading-6 task-text flex-1 ${
+          className={`task-text flex-1 ${
             task.completed ? 'completed-task' : ''
           }`}
         >
