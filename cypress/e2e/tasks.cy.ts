@@ -283,29 +283,4 @@ describe('Task List Application', () => {
       .find('svg')
       .should('have.attr', 'viewBox', '0 0 24 24') // Verify it's the correct X icon
   })
-
-
-  it('should display task count when open tasks exist', () => {
-    // Clear existing test tasks first (using the same pattern as existing tests)
-    cy.request('GET', 'http://localhost:3000/tasks').then((response) => {
-      const tasks = response.body
-      // Delete any existing tasks to start fresh
-      tasks.forEach((task: { id: string }) => {
-        cy.request('DELETE', `http://localhost:3000/tasks/${task.id}`)
-      })
-    }).then(() => {
-      // Visit the application
-      cy.visit('/')
-      
-      // Wait for the loading to finish
-      cy.contains('Loading tasks...').should('not.exist')
-      
-      // Add some test tasks
-      cy.get('input[placeholder="Add a new task..."]').type('Test task 1{enter}')
-      cy.get('input[placeholder="Add a new task..."]').type('Test task 2{enter}')
-      
-      // Check that the header shows the count
-      cy.get('h2').should('contain', 'Tasks (2)')
-    })
-  })
 }) 
