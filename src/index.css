@@ -66,6 +66,26 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Default H1 styles */
+  h1 {
+    @apply gradient-text font-montserrat text-4xl font-normal leading-9 tracking-tight inline-block;
+  }
+  
+  /* Default H2 styles */
+  h2 {
+    @apply font-montserrat text-base font-normal text-gray-500 leading-7 tracking-tight;
+  }
+  
+  /* Default P styles */
+  p {
+    @apply text-gray-500;
+  }
+  
+  /* Default span styles for task text */
+  span {
+    @apply font-inter text-base leading-6;
+  }
 }
 
 @layer utilities {

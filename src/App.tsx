@@ -284,7 +284,7 @@ function App() {
         <div className="flex-1 p-4 flex flex-col gap-4">
           {/* Header */}
           <div className="pt-6 pb-2">
-            <h1 className="gradient-text font-montserrat text-4xl font-normal leading-9 tracking-tight inline-block">
+            <h1>
               CraftAmplify Tasks
             </h1>
           </div>
@@ -302,7 +302,7 @@ function App() {
           
           {/* Tasks Section */}
       <div>
-            <h2 className="font-montserrat text-base font-normal text-gray-500 leading-7 tracking-tight">
+            <h2>
               Tasks
             </h2>
             
@@ -310,10 +310,10 @@ function App() {
             <div className="space-y-2">
               {loading ? (
                 <div className="text-center py-8">
-                  <p className="text-gray-500">{LOADING_MESSAGES.LOADING_TASKS}</p>
+                  <p>{LOADING_MESSAGES.LOADING_TASKS}</p>
                 </div>
               ) : orderedTasks.length === 0 ? (
-                <p className="text-gray-500 text-center py-8">No tasks to display</p>
+                <p className="text-center py-8">No tasks to display</p>
               ) : (
                 orderedTasks.map((task, index) => (
                   <div key={task.id}>
