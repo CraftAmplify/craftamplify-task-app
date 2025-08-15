@@ -100,3 +100,14 @@ jspm_packages/
 # Temporary folders
 tmp/
 temp/
+
+# Cypress
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+db.json
