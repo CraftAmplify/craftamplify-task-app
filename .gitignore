@@ -107,7 +107,5 @@ cypress/videos/
 cypress/downloads/
 
 # Database files
-*.db
 *.sqlite
 *.sqlite3
-db.json
