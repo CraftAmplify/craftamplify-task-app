@@ -6,7 +6,7 @@
 /** API Configuration */
 export const API_CONFIG = {
   /** Base URL for the JSON Server API */
-  BASE_URL: 'http://localhost:3000',
+  BASE_URL: 'http://localhost:3001',
   /** Default timeout for API requests in milliseconds */
   TIMEOUT: 5000,
 } as const

@@ -276,6 +276,9 @@ function App() {
   }
 
   const orderedTasks = reorderTasks(tasks)
+  
+  // Calculate open task count for the header
+  const openTaskCount = orderedTasks.filter(task => !task.completed).length
 
   return (
     <div className="bg-white min-h-screen font-inter">
@@ -302,9 +305,14 @@ function App() {
           
           {/* Tasks Section */}
       <div>
-            <h2>
-              Tasks
-            </h2>
+            <div className="flex items-center gap-3 mb-6">
+              <h2>Tasks</h2>
+              {openTaskCount > 0 && (
+                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-orange-500 text-white font-bold text-sm">
+                  {openTaskCount}
+                </div>
+              )}
+            </div>
             
             {/* Tasks List */}
             <div className="space-y-2">
