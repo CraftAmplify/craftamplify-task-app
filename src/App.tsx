@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { AddTaskForm } from '@/components/AddTaskForm'
 import { TaskItem } from '@/components/TaskItem'
 import { TaskService, TaskServiceError, type Task } from '@/services/taskService'
@@ -277,6 +277,10 @@ function App() {
 
   const orderedTasks = reorderTasks(tasks)
 
+  const activeTasksCount = useMemo(() => {
+    return tasks.filter(task => !task.completed).length
+  }, [tasks])
+
   return (
     <div className="bg-white min-h-screen font-inter">
       <div className="max-w-[1000px] mx-auto bg-white min-h-screen flex flex-col">
@@ -303,7 +307,7 @@ function App() {
           {/* Tasks Section */}
       <div>
             <h2>
-              Tasks
+              Tasks{activeTasksCount > 0 && ` (${activeTasksCount})`}
             </h2>
             
             {/* Tasks List */}
