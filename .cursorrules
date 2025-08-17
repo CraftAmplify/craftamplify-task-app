@@ -1,0 +1,8 @@
+- Always check the design system files first (src/components/ui/*.ts, src/components/ui/*.tsx)
+- Follow the established component patterns and variants
+- Use predefined design tokens instead of custom CSS
+- Check button-variants.ts for available options before suggesting button modifications
+- Maintain consistency with existing component APIs
+- Reference the constants file (src/constants/index.ts) for any magic values
+- Always strive for best practices in frontend code
+- WARN ME IF ANY RECOMMENDATION DOES NOT MEET THESE STANDARDS
