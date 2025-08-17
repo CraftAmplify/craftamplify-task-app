@@ -20,7 +20,7 @@ describe('Task List Application', () => {
     cy.log('Cleaning up test tasks...')
     
     // Get all tasks and delete any that match our test patterns
-    cy.request('GET', 'http://localhost:3000/tasks').then((response) => {
+    cy.request('GET', 'http://localhost:3001/tasks').then((response) => {
       const tasks = response.body
       const testTaskPatterns = [
         'Test task 1',
@@ -34,7 +34,7 @@ describe('Task List Application', () => {
       
       tasks.forEach((task: { id: string; text: string }) => {
         if (testTaskPatterns.some(pattern => task.text.includes(pattern))) {
-          cy.request('DELETE', `http://localhost:3000/tasks/${task.id}`)
+          cy.request('DELETE', `http://localhost:3001/tasks/${task.id}`)
             .then(() => {
               cy.log(`Deleted test task: ${task.text}`)
             })
@@ -45,7 +45,7 @@ describe('Task List Application', () => {
 
   it('should verify database connectivity', () => {
     // Test that the JSON server is responding correctly
-    cy.request('GET', 'http://localhost:3000/tasks').then((response) => {
+    cy.request('GET', 'http://localhost:3001/tasks').then((response) => {
       expect(response.status).to.eq(200)
       expect(response.body).to.be.an('array')
       
