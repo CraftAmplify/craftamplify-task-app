@@ -3,7 +3,7 @@
     {
       "id": "1",
       "text": "Set up my AI-powered coding environment (Cursor, Git, Node.js)",
-      "completed": true
+      "completed": false
     },
     {
       "id": "2",
@@ -23,6 +23,16 @@
     {
       "id": "5",
       "text": "Understand how to make a small UI fix in a mock codebase",
+      "completed": true
+    },
+    {
+      "id": "8eb2",
+      "text": "Check email before end of day",
+      "completed": false
+    },
+    {
+      "id": "60d1",
+      "text": "Set up a calendar reminder on 8/30/2025 to call Eric",
       "completed": false
     }
   ]
