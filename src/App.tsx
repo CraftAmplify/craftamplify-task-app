@@ -281,11 +281,6 @@ function App() {
     return tasks.filter(t => !t.completed).length
   }, [tasks])
 
-  const getTasksHeaderText = () => {
-    const openCount = tasks.filter(t => !t.completed).length
-    return openCount > 0 ? `Tasks (${openCount})` : 'Tasks'
-  }
-
   return (
     <div className="bg-white min-h-screen font-inter">
       <div className="max-w-[1000px] mx-auto bg-white min-h-screen flex flex-col">
@@ -312,7 +307,7 @@ function App() {
           {/* Tasks Section */}
       <div>
             <h2>
-              Tasks{tasks.filter(t => !t.completed).length > 0 && ` (${tasks.filter(t => !t.completed).length})`}
+              Tasks{openTaskCount > 0 && ` (${openTaskCount})`}
             </h2>
             
             {/* Tasks List */}
