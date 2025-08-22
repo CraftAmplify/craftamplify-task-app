@@ -3,26 +3,41 @@
     {
       "id": "1",
       "text": "Set up my AI-powered coding environment (Cursor, Git, Node.js)",
-      "completed": true
+      "completed": false
     },
     {
       "id": "2",
       "text": "Practice basic terminal commands (cd, ls, mkdir)",
-      "completed": true
+      "completed": false
     },
     {
       "id": "3",
       "text": "Prompt Cursor to generate a basic HTML structure",
-      "completed": false
+      "completed": true
     },
     {
       "id": "4",
       "text": "Use AI to apply design system styles to a UI component",
-      "completed": false
+      "completed": true
     },
     {
       "id": "5",
       "text": "Understand how to make a small UI fix in a mock codebase",
+      "completed": true
+    },
+    {
+      "id": "8eb2",
+      "text": "Check email before end of day",
+      "completed": true
+    },
+    {
+      "id": "60d1",
+      "text": "Set up a calendar reminder on 8/30/2025 to call Eric",
+      "completed": true
+    },
+    {
+      "id": "c3c2",
+      "text": "Pick up mail",
       "completed": false
     }
   ]
