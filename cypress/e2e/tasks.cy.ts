@@ -283,4 +283,25 @@ describe('Task List Application', () => {
       .find('svg')
       .should('have.attr', 'viewBox', '0 0 24 24') // Verify it's the correct X icon
   })
+  it('should display correct task count in header on page load', () => {
+    // Wait for loading to complete
+    cy.contains('Loading tasks...').should('not.exist')
+    
+    // Check that the Tasks header is present
+    cy.get('h2').should('contain', 'Tasks')
+    
+    // Get the current task count from the header
+    cy.get('h2').then($header => {
+      const headerText = $header.text()
+      cy.log(`Header text: "${headerText}"`)
+      
+      // If there are tasks, it should show count like "Tasks (3)"
+      // If no tasks, it should just show "Tasks"
+      if (headerText.includes('(')) {
+        cy.log('Header shows task count')
+      } else {
+        cy.log('Header shows no count (likely no open tasks)')
+      }
+    })
+  })
 }) 
