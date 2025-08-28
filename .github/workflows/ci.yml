@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD Pipeline Quality Tests
 
 on:
   pull_request:
