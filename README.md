@@ -19,6 +19,8 @@ This project is designed to simulate a modern frontend development environment w
 
 ## Tech Stack
 
+TEST
+
 - **React 18** - Modern React with hooks and functional components
 - **TypeScript** - Type-safe JavaScript for better development experience
 - **Vite** - Fast build tool and development server
