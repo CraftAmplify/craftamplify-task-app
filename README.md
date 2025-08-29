@@ -5,6 +5,8 @@ A modern, responsive task management application built with React and TypeScript
 ## Company Information
 CraftAmplify LLC
 
+TEST
+
 ## Legal Notice
 © 2025 CraftAmplify LLC. All rights reserved.
 This application is for educational purposes only. Unauthorized copying or distribution is prohibited.
