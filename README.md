@@ -7,6 +7,7 @@ CraftAmplify LLC
 
 ## Legal Notice
 © 2025 CraftAmplify LLC. All rights reserved.
+This application is for educational purposes only. Unauthorized copying or distribution is prohibited.
 
 ## Description
 
