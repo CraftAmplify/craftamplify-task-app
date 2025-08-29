@@ -2,6 +2,8 @@
 
 A modern, responsive task management application built with React and TypeScript. This application demonstrates how to create a polished frontend environment with data persistence, perfect for understanding how UI components interact with a mock backend.
 
+TST
+
 ## Company Information
 CraftAmplify LLC
 
