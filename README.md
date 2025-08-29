@@ -1,6 +1,12 @@
-# CraftAmplify Mock Enterprise Task List
+# CraftAmplify Task Management Application
 
-A modern, responsive task management application built with React and TypeScript. This sample application demonstrates how to create a polished frontend environment with data persistence, perfect for understanding how UI components interact with a mock backend.
+A modern, responsive task management application built with React and TypeScript. This application demonstrates how to create a polished frontend environment with data persistence, perfect for understanding how UI components interact with a mock backend.
+
+## Company Information
+CraftAmplify LLC
+
+## Legal Notice
+© 2025 CraftAmplify LLC. All rights reserved.
 
 ## Description
 
@@ -214,7 +220,7 @@ The application is built with modern development practices:
 
 ## Contributing
 
-This is a sample application designed for learning and demonstration purposes. Feel free to experiment with the code and explore different features and implementations. 
+This application is designed for learning and demonstration purposes. Feel free to experiment with the code and explore different features and implementations. 
 
 
 
