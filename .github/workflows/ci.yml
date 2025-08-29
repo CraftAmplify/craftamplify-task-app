@@ -1,4 +1,4 @@
-name: CI/CD Pipeline Quality Tests
+name: CI/CD Pipeline
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Test
+    name: Quality Checks
     runs-on: ubuntu-latest
 
     strategy:
