@@ -66,6 +66,8 @@ This project is designed to simulate a modern frontend development environment w
 npm run mock:api
 ```
 
+Note: This starts a local mock API backed by `db.json`. It is for development and testing only; there is no real backend service.
+
 **Keep this terminal running** - the backend needs to stay active for the frontend to work properly.
 
 #### 2. Start the Frontend Application
