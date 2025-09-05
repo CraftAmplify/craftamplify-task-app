@@ -38,9 +38,14 @@ This project is designed to simulate a modern frontend development environment w
 
 ### Prerequisites
 
-- **Node.js** (v16 or higher) with npm
-  - For macOS/Linux users, we recommend using `nvm` for Node.js version management
+- **Node.js** (v20 or higher) with npm
+  - Optional: use `nvm` for Node.js version management (not required)
 - **Yarn** (optional) - if you prefer `yarn install` over `npm install`
+
+Check your Node version:
+```bash
+node -v  # should be >= 20
+```
 
 ### Installation
 
@@ -62,12 +67,17 @@ This project is designed to simulate a modern frontend development environment w
 **In a separate terminal tab/window**, run:
 
 ```bash
-# Install JSON Server globally (if not already installed)
-npm install -g json-server
-
-# Start the mock backend server
-json-server --watch db.json --port 3000
+# Start the mock backend server (mock API)
+npm run mock:api
 ```
+
+Note: This starts a local mock API backed by `db.json`. It is for development and testing only; there is no real backend service.
+
+Restore mock data at any time:
+```bash
+npm run db:reset
+```
+This resets `db.json` from `db-backup.json`.
 
 **Keep this terminal running** - the backend needs to stay active for the frontend to work properly.
 
@@ -170,9 +180,9 @@ E2E tests simulate real user interactions by testing the complete application fl
 **Prerequisites for E2E tests:**
 Before running Cypress tests, you **must** have both servers running:
 
-1. **Start JSON Server** (in one terminal):
+1. **Start JSON Server (mock API)** (in one terminal):
    ```bash
-   json-server --watch db.json --port 3000
+   npm run mock:api
    ```
 
 2. **Start React App** (in another terminal):
@@ -180,17 +190,18 @@ Before running Cypress tests, you **must** have both servers running:
    npm run dev
    ```
 
-**Run E2E tests:**
+**Run E2E tests (recommended headless):**
 ```bash
-# Open Cypress UI for interactive testing
-npm run cypress:open
-# or
-npm run e2e:open
-
-# Run tests headlessly in terminal
 npm run cypress:run
 # or
 npm run e2e
+```
+
+Optional (headed UI):
+```bash
+npm run cypress:open
+# or
+npm run e2e:open
 ```
 
 **What's tested:**

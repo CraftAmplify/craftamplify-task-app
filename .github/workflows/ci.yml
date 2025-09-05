@@ -45,12 +45,9 @@ jobs:
           name: codecov-umbrella
           fail_ci_if_error: false
 
-      - name: Install JSON Server globally
-        run: npm install -g json-server
-
-      - name: Start JSON Server
+      - name: Start JSON Server (mock API)
         run: |
-          json-server --watch db.json --port 3000 &
+          npm run mock:api &
           echo $! > json-server.pid
         env:
           CI: true
