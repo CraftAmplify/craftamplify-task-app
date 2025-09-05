@@ -38,8 +38,8 @@ This project is designed to simulate a modern frontend development environment w
 
 ### Prerequisites
 
-- **Node.js** (v16 or higher) with npm
-  - For macOS/Linux users, we recommend using `nvm` for Node.js version management
+- **Node.js** (v20 or higher) with npm
+  - Optional: use `nvm` for Node.js version management (not required)
 - **Yarn** (optional) - if you prefer `yarn install` over `npm install`
 
 ### Installation
@@ -62,11 +62,8 @@ This project is designed to simulate a modern frontend development environment w
 **In a separate terminal tab/window**, run:
 
 ```bash
-# Install JSON Server globally (if not already installed)
-npm install -g json-server
-
-# Start the mock backend server
-json-server --watch db.json --port 3000
+# Start the mock backend server (mock API)
+npm run mock:api
 ```
 
 **Keep this terminal running** - the backend needs to stay active for the frontend to work properly.
@@ -170,9 +167,9 @@ E2E tests simulate real user interactions by testing the complete application fl
 **Prerequisites for E2E tests:**
 Before running Cypress tests, you **must** have both servers running:
 
-1. **Start JSON Server** (in one terminal):
+1. **Start JSON Server (mock API)** (in one terminal):
    ```bash
-   json-server --watch db.json --port 3000
+   npm run mock:api
    ```
 
 2. **Start React App** (in another terminal):
