@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "mock:api": "json-server --watch db.json --port 3000",
+    "db:reset": "node scripts/reset-db.mjs",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",

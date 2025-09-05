@@ -42,6 +42,11 @@ This project is designed to simulate a modern frontend development environment w
   - Optional: use `nvm` for Node.js version management (not required)
 - **Yarn** (optional) - if you prefer `yarn install` over `npm install`
 
+Check your Node version:
+```bash
+node -v  # should be >= 20
+```
+
 ### Installation
 
 1. **Clone the repository** (if applicable) or navigate to the project directory
@@ -67,6 +72,12 @@ npm run mock:api
 ```
 
 Note: This starts a local mock API backed by `db.json`. It is for development and testing only; there is no real backend service.
+
+Restore mock data at any time:
+```bash
+npm run db:reset
+```
+This resets `db.json` from `db-backup.json`.
 
 **Keep this terminal running** - the backend needs to stay active for the frontend to work properly.
 
@@ -179,17 +190,18 @@ Before running Cypress tests, you **must** have both servers running:
    npm run dev
    ```
 
-**Run E2E tests:**
+**Run E2E tests (recommended headless):**
 ```bash
-# Open Cypress UI for interactive testing
-npm run cypress:open
-# or
-npm run e2e:open
-
-# Run tests headlessly in terminal
 npm run cypress:run
 # or
 npm run e2e
+```
+
+Optional (headed UI):
+```bash
+npm run cypress:open
+# or
+npm run e2e:open
 ```
 
 **What's tested:**
