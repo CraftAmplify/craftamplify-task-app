@@ -71,7 +71,7 @@ node -v  # should be >= 20
 npm run mock:api
 ```
 
-Note: This starts a local mock API backed by `db.json`. It is for development and testing only; there is no real backend service.
+Note: This starts a local mock API backed by `db.json`. It is for development and testing only; there is no real backend service. If you change `db.json`, your changes persist until you reset with `npm run db:reset`.
 
 Restore mock data at any time:
 ```bash
