@@ -1,19 +1,14 @@
 {
   "tasks": [
     {
-      "id": "1",
-      "text": "Set up my AI-powered coding environment (Cursor, Git, Node.js)",
-      "completed": true
-    },
-    {
       "id": "2",
       "text": "Practice basic terminal commands (cd, ls, mkdir)",
-      "completed": true
+      "completed": false
     },
     {
       "id": "3",
       "text": "Prompt Cursor to generate a basic HTML structure",
-      "completed": false
+      "completed": true
     },
     {
       "id": "4",
@@ -24,6 +19,11 @@
       "id": "5",
       "text": "Understand how to make a small UI fix in a mock codebase",
       "completed": false
+    },
+    {
+      "text": "test test",
+      "completed": false,
+      "id": "q3t4SiB"
     }
   ]
 }
