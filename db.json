@@ -3,12 +3,12 @@
     {
       "id": "1",
       "text": "Set up my AI-powered coding environment (Cursor, Git, Node.js)",
-      "completed": true
+      "completed": false
     },
     {
       "id": "2",
       "text": "Practice basic terminal commands (cd, ls, mkdir)",
-      "completed": true
+      "completed": false
     },
     {
       "id": "3",
@@ -24,6 +24,16 @@
       "id": "5",
       "text": "Understand how to make a small UI fix in a mock codebase",
       "completed": false
+    },
+    {
+      "text": "check it works",
+      "completed": true,
+      "id": "8eBbb0x"
+    },
+    {
+      "text": "test",
+      "completed": false,
+      "id": "g0UyNGi"
     }
   ]
 }
