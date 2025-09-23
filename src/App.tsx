@@ -27,6 +27,7 @@ function App() {
   const [deletingTasks, setDeletingTasks] = useState<Set<string>>(new Set())
   const [movingTasks, setMovingTasks] = useState<Set<string>>(new Set())
 
+  const openTaskCount = tasks.filter(task => !task.completed).length
   // Fetch tasks on component mount
   useEffect(() => {
     fetchTasks()
@@ -303,7 +304,7 @@ function App() {
           {/* Tasks Section */}
       <div>
             <h2>
-              Tasks
+              Tasks{openTaskCount > 0 && ` (${openTaskCount})`}
             </h2>
             
             {/* Tasks List */}
