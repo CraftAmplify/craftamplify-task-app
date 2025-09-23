@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo} from 'react'
 import { AddTaskForm } from '@/components/AddTaskForm'
 import { TaskItem } from '@/components/TaskItem'
 import { TaskService, TaskServiceError, type Task } from '@/services/taskService'
@@ -26,6 +26,10 @@ function App() {
   const [openElementRef, setOpenElementRef] = useState<React.RefObject<HTMLDivElement | null> | null>(null)
   const [deletingTasks, setDeletingTasks] = useState<Set<string>>(new Set())
   const [movingTasks, setMovingTasks] = useState<Set<string>>(new Set())
+  const openCount = useMemo(
+    () => tasks.filter(t => !t.completed).length,
+    [tasks]
+  )
 
   // Fetch tasks on component mount
   useEffect(() => {
@@ -303,7 +307,7 @@ function App() {
           {/* Tasks Section */}
       <div>
             <h2>
-              Tasks
+              {openCount ? `Tasks (${openCount})` : 'Tasks'}
             </h2>
             
             {/* Tasks List */}

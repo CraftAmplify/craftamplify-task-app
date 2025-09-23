@@ -3,12 +3,12 @@
     {
       "id": "1",
       "text": "Set up my AI-powered coding environment (Cursor, Git, Node.js)",
-      "completed": true
+      "completed": false
     },
     {
       "id": "2",
       "text": "Practice basic terminal commands (cd, ls, mkdir)",
-      "completed": true
+      "completed": false
     },
     {
       "id": "3",
@@ -18,12 +18,12 @@
     {
       "id": "4",
       "text": "Use AI to apply design system styles to a UI component",
-      "completed": false
+      "completed": true
     },
     {
       "id": "5",
       "text": "Understand how to make a small UI fix in a mock codebase",
-      "completed": false
+      "completed": true
     }
   ]
 }
