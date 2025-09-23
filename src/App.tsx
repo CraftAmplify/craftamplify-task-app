@@ -28,6 +28,9 @@ function App() {
   const [movingTasks, setMovingTasks] = useState<Set<string>>(new Set())
 
   const openTaskCount = tasks.filter(task => !task.completed).length
+  const activeTasks = tasks.filter(task => !task.completed)
+  const completedTasks = tasks.filter(task => task.completed)
+  
   // Fetch tasks on component mount
   useEffect(() => {
     fetchTasks()
@@ -263,21 +266,6 @@ function App() {
     }
   }
 
-  /**
-   * Reorders tasks to show active tasks first, then completed tasks
-   * This provides a better user experience by prioritizing actionable items
-   * 
-   * @param tasks - Array of tasks to reorder
-   * @returns Reordered array with active tasks first, then completed tasks
-   */
-  const reorderTasks = (tasks: Task[]) => {
-    const activeTasks = tasks.filter(t => !t.completed)
-    const completedTasks = tasks.filter(t => t.completed)
-    return [...activeTasks, ...completedTasks]
-  }
-
-  const orderedTasks = reorderTasks(tasks)
-
   return (
     <div className="bg-white min-h-screen font-inter">
       <div className="max-w-[1000px] mx-auto bg-white min-h-screen flex flex-col">
@@ -301,22 +289,22 @@ function App() {
             <AddTaskForm onAddTask={handleAddTask} />
           </div>
           
-          {/* Tasks Section */}
-      <div>
+          {/* Active Tasks Section */}
+          <div>
             <h2>
               Tasks{openTaskCount > 0 && ` (${openTaskCount})`}
             </h2>
             
-            {/* Tasks List */}
+            {/* Active Tasks List */}
             <div className="space-y-2">
               {loading ? (
                 <div className="text-center py-8">
                   <p>{LOADING_MESSAGES.LOADING_TASKS}</p>
                 </div>
-              ) : orderedTasks.length === 0 ? (
-                <p className="text-center py-8">No tasks to display</p>
+              ) : activeTasks.length === 0 ? (
+                <p className="text-center py-8">No active tasks</p>
               ) : (
-                orderedTasks.map((task, index) => (
+                activeTasks.map((task, index) => (
                   <div key={task.id}>
                     <TaskItem 
                       task={task} 
@@ -326,7 +314,7 @@ function App() {
                       isDeleting={deletingTasks.has(task.id)}
                       isMoving={movingTasks.has(task.id)}
                     />
-                    {index < orderedTasks.length - 1 && (
+                    {index < activeTasks.length - 1 && (
                       <div className="h-px my-2 bg-gray-200"></div>
                     )}
                   </div>
@@ -334,6 +322,32 @@ function App() {
               )}
             </div>
           </div>
+
+          {/* Completed Tasks Section */}
+          {completedTasks.length > 0 && (
+            <div className="mt-8">
+              <h2 className="text-gray-400 text-sm">
+                Completed ({completedTasks.length})
+              </h2>
+              <div className="space-y-2 opacity-60">
+                {completedTasks.map((task, index) => (
+                  <div key={task.id}>
+                    <TaskItem 
+                      task={task} 
+                      onToggle={handleToggleTask} 
+                      onDelete={handleDeleteTask} 
+                      onSwipeOpen={handleSwipeOpen}
+                      isDeleting={deletingTasks.has(task.id)}
+                      isMoving={movingTasks.has(task.id)}
+                    />
+                    {index < completedTasks.length - 1 && (
+                      <div className="h-px my-2 bg-gray-200"></div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
         
         {/* Footer Image */}
