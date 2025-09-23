@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo  } from 'react'
 import { AddTaskForm } from '@/components/AddTaskForm'
 import { TaskItem } from '@/components/TaskItem'
 import { TaskService, TaskServiceError, type Task } from '@/services/taskService'
@@ -26,7 +26,9 @@ function App() {
   const [openElementRef, setOpenElementRef] = useState<React.RefObject<HTMLDivElement | null> | null>(null)
   const [deletingTasks, setDeletingTasks] = useState<Set<string>>(new Set())
   const [movingTasks, setMovingTasks] = useState<Set<string>>(new Set())
-
+  const activeTasksCount = useMemo(() => {
+    return tasks.filter(task => !task.completed).length;
+  }, [tasks]);
   // Fetch tasks on component mount
   useEffect(() => {
     fetchTasks()
@@ -302,9 +304,14 @@ function App() {
           
           {/* Tasks Section */}
       <div>
-            <h2>
-              Tasks
-            </h2>
+      <h2 className="flex items-center gap-2">
+     Tasks
+     {activeTasksCount > 0 && (
+       <span className="bg-gradient-to-r from-[#2783BF] to-[#C616B2] text-white text-xs font-medium px-2 py-1 rounded-full">
+         {activeTasksCount}
+       </span>
+     )}
+   </h2>
             
             {/* Tasks List */}
             <div className="space-y-2">
