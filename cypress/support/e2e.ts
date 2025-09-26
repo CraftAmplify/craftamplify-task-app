@@ -19,6 +19,11 @@ import './commands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
+// Reset mock DB before each test file to ensure a clean baseline
+beforeEach(() => {
+  cy.exec('node scripts/reset-db.mjs', { failOnNonZeroExit: false })
+})
+
 // Hide fetch/XHR requests from command log
 const app = window.top;
 if (app) {
