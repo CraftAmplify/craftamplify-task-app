@@ -122,6 +122,8 @@ Open your browser and navigate to:
 - Newly completed tasks appear at the top of the completed section
 - Uncompleted tasks move to the top of the active section
 
+
+
 ## Project Structure
 
 ```
