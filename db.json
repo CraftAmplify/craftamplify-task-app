@@ -27,13 +27,18 @@
     },
     {
       "text": "check it works",
-      "completed": true,
+      "completed": false,
       "id": "8eBbb0x"
     },
     {
       "text": "test",
       "completed": false,
       "id": "g0UyNGi"
+    },
+    {
+      "text": "new task",
+      "completed": false,
+      "id": "HzL9tB1"
     }
   ]
 }
