@@ -105,6 +105,7 @@ temp/
 cypress/screenshots/
 cypress/videos/
 cypress/downloads/
+run-cypress.sh
 
 # Database files
 *.sqlite
