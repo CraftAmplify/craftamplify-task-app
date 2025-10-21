@@ -276,6 +276,9 @@ function App() {
   }
 
   const orderedTasks = reorderTasks(tasks)
+  
+  // Calculate active (open) tasks count
+  const activeTasks = tasks.filter(task => !task.completed)
 
   return (
     <div className="bg-white min-h-screen font-inter">
@@ -303,7 +306,7 @@ function App() {
           {/* Tasks Section */}
       <div>
             <h2>
-              Tasks
+              Tasks{activeTasks.length > 0 && ` (${activeTasks.length})`}
             </h2>
             
             {/* Tasks List */}
