@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { AddTaskForm } from '@/components/AddTaskForm'
 import { TaskItem } from '@/components/TaskItem'
 import { TaskService, TaskServiceError, type Task } from '@/services/taskService'
@@ -26,6 +26,7 @@ function App() {
   const [openElementRef, setOpenElementRef] = useState<React.RefObject<HTMLDivElement | null> | null>(null)
   const [deletingTasks, setDeletingTasks] = useState<Set<string>>(new Set())
   const [movingTasks, setMovingTasks] = useState<Set<string>>(new Set())
+
 
   // Fetch tasks on component mount
   useEffect(() => {
@@ -269,13 +270,11 @@ function App() {
    * @param tasks - Array of tasks to reorder
    * @returns Reordered array with active tasks first, then completed tasks
    */
-  const reorderTasks = (tasks: Task[]) => {
-    const activeTasks = tasks.filter(t => !t.completed)
-    const completedTasks = tasks.filter(t => t.completed)
-    return [...activeTasks, ...completedTasks]
-  }
+  const orderedTasks = tasks
 
-  const orderedTasks = reorderTasks(tasks)
+  const openTaskCount = useMemo(() => {
+    return orderedTasks.filter(task => !task.completed).length
+  }, [orderedTasks])
 
   return (
     <div className="bg-white min-h-screen font-inter">
@@ -303,7 +302,7 @@ function App() {
           {/* Tasks Section */}
       <div>
             <h2>
-              Tasks
+              Tasks{openTaskCount > 0 && ` (${openTaskCount})`}
             </h2>
             
             {/* Tasks List */}
