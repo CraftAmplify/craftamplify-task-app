@@ -42,8 +42,8 @@ export function AddTaskForm({ onAddTask }: AddTaskFormProps) {
         type="submit"
         disabled={!taskText.trim()}
         variant="craft"
-        size="default"
-      >
+        size="lg"     
+        >
         Add
       </Button>
     </form>
