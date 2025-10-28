@@ -29,7 +29,8 @@ describe('Task List Application', () => {
         'Test task for completion',
         'Hover test task',
         'Complete E2E testing setup',
-        'Task added with Enter key'
+        'Task added with Enter key',
+        'Task Count Test'
       ]
       
       tasks.forEach((task: { id: string; text: string }) => {
@@ -92,6 +93,56 @@ describe('Task List Application', () => {
     
     // Verify that we have some incomplete tasks (our test tasks should be incomplete)
     cy.get('.task-text:not(.completed-task)').should('exist')
+  })
+
+  it('should display task count in header when there are active tasks', () => {
+    // Wait for loading to complete
+    cy.contains('Loading tasks...').should('not.exist')
+    
+    // Clean slate: Delete any existing active tasks
+    cy.request('GET', 'http://localhost:3000/tasks').then((response) => {
+      response.body.forEach((task: { id: string; completed: boolean }) => {
+        if (!task.completed) {
+          cy.request('DELETE', `http://localhost:3000/tasks/${task.id}`)
+        }
+      })
+    })
+    
+    // Wait for deletions to complete
+    cy.wait(500)
+    
+    // Initially should show "Tasks" without count (no active tasks)
+    cy.get('h2').should('contain', 'Tasks')
+    cy.get('h2').should('not.contain', '(0)')
+    
+    // Add an active task
+    cy.get('input[placeholder="Add a new task..."]').type('Task Count Test 1{enter}')
+    cy.wait(300)
+    
+    // Now should show "Tasks (1)"
+    cy.get('h2').should('contain', 'Tasks (1)')
+    
+    // Add another active task
+    cy.get('input[placeholder="Add a new task..."]').type('Task Count Test 2{enter}')
+    cy.wait(300)
+    
+    // Now should show "Tasks (2)"
+    cy.get('h2').should('contain', 'Tasks (2)')
+    
+    // Complete a task
+    cy.get('.task-text').contains('Task Count Test 1').parent().find('input[type="checkbox"]').click()
+    cy.wait(500) // Wait for animation
+    
+    // Should now show "Tasks (1)" 
+    cy.get('h2').should('contain', 'Tasks (1)')
+    
+    // Complete the last task
+    cy.get('.task-text').contains('Task Count Test 2').parent().find('input[type="checkbox"]').click()
+    cy.wait(500)
+    
+    // Should show "Tasks" without count again (no active tasks)
+    cy.get('h2').should('contain', 'Tasks')
+    cy.get('h2').should('not.contain', '(0)')
   })
 
   it('should display the Add Task form elements', () => {
