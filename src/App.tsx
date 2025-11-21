@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { AddTaskForm } from '@/components/AddTaskForm'
 import { TaskItem } from '@/components/TaskItem'
 import { TaskService, TaskServiceError, type Task } from '@/services/taskService'
@@ -275,7 +275,12 @@ function App() {
     return [...activeTasks, ...completedTasks]
   }
 
-  const orderedTasks = reorderTasks(tasks)
+  const orderedTasks = useMemo(() => reorderTasks(tasks), [tasks])
+
+  const openTaskCount = useMemo(
+    () => tasks.filter((task) => !task.completed).length,
+    [tasks]
+  )
 
   return (
     <div className="bg-white min-h-screen font-inter">
@@ -303,7 +308,7 @@ function App() {
           {/* Tasks Section */}
       <div>
             <h2>
-              Tasks
+              Tasks{openTaskCount > 0 ? ` (${openTaskCount})` : ''}
             </h2>
             
             {/* Tasks List */}
