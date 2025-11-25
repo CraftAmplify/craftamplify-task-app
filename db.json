@@ -13,12 +13,12 @@
     {
       "id": "3",
       "text": "Prompt Cursor to generate a basic HTML structure",
-      "completed": false
+      "completed": true
     },
     {
       "id": "4",
       "text": "Use AI to apply design system styles to a UI component",
-      "completed": false
+      "completed": true
     },
     {
       "id": "5",
