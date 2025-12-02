@@ -3,6 +3,7 @@ import { AddTaskForm } from '@/components/AddTaskForm'
 import { TaskItem } from '@/components/TaskItem'
 import { TaskService, TaskServiceError, type Task } from '@/services/taskService'
 import { ANIMATION, LOADING_MESSAGES } from '@/constants'
+import { Typography } from '@/components/ui/typography'
 
 /**
  * Main App Component
@@ -274,7 +275,7 @@ function App() {
     const completedTasks = tasks.filter(t => t.completed)
     return [...activeTasks, ...completedTasks]
   }
-
+  const openTaskCount = tasks.filter(t => !t.completed).length
   const orderedTasks = reorderTasks(tasks)
 
   return (
@@ -302,9 +303,9 @@ function App() {
           
           {/* Tasks Section */}
       <div>
-            <h2>
-              Tasks
-            </h2>
+      <Typography.h2>
+              Tasks{openTaskCount > 0 && ` (${openTaskCount})`}
+      </Typography.h2>
             
             {/* Tasks List */}
             <div className="space-y-2">
