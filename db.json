@@ -1,29 +1,44 @@
 {
   "tasks": [
     {
-      "id": "1",
-      "text": "Set up my AI-powered coding environment (Cursor, Git, Node.js)",
-      "completed": true
+      "text": "ok",
+      "completed": false,
+      "id": 1
     },
     {
-      "id": "2",
-      "text": "Practice basic terminal commands (cd, ls, mkdir)",
-      "completed": true
+      "text": "test",
+      "completed": false,
+      "id": 2
     },
     {
-      "id": "3",
-      "text": "Prompt Cursor to generate a basic HTML structure",
-      "completed": false
+      "text": "asdmlkasd",
+      "completed": false,
+      "id": 3
     },
     {
-      "id": "4",
-      "text": "Use AI to apply design system styles to a UI component",
-      "completed": false
+      "text": "sd",
+      "completed": false,
+      "id": 4
     },
     {
-      "id": "5",
-      "text": "Understand how to make a small UI fix in a mock codebase",
-      "completed": false
+      "text": "sadas",
+      "completed": false,
+      "id": 5
+    },
+    {
+      "text": "dsa",
+      "completed": false,
+      "id": 6
+    },
+    {
+      "text": "d",
+      "completed": false,
+      "id": 7
+    },
+    {
+      "text": "asdas",
+      "completed": false,
+      "id": 8
     }
   ]
 }
