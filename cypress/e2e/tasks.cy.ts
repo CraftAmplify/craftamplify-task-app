@@ -282,5 +282,47 @@ describe('Task List Application', () => {
       .and('contain.html', 'svg') // Should contain the X icon SVG
       .find('svg')
       .should('have.attr', 'viewBox', '0 0 24 24') // Verify it's the correct X icon
-  })
-}) 
+    })
+  }) 
+  describe('Task Count Display', () => {
+    beforeEach(() => {
+      // Wait for servers to be ready
+      cy.wait(2000)
+      
+      // Visit the application
+      cy.visit('/', { timeout: 30000 })
+      
+      // Wait for the page to be fully loaded
+      cy.get('body', { timeout: 10000 }).should('be.visible')
+      
+      // Wait for loading to complete
+      cy.contains('Loading tasks...').should('not.exist')
+    })
+    it('should display "Tasks" when there are no open tasks', () => {
+      // Complete all existing open tasks (6 spaces indentation)
+      cy.get('.task-text:not(.completed-task)').then($openTasks => {
+        const openTaskCount = $openTasks.length
+        cy.log(`Found ${openTaskCount} open tasks to complete`)
+        
+        // If there are open tasks, complete them one by one
+        if (openTaskCount > 0) {
+          // Click the checkbox for each open task
+          cy.get('.task-text:not(.completed-task)').each(() => {
+            cy.get('.task-text:not(.completed-task)').first()
+              .parent()
+              .parent()
+              .find('[data-slot="checkbox"]')
+              .click({ force: true })
+            cy.wait(500) // Wait a bit between clicks
+          })
+        }
+      })
+      
+      // Wait for animations to complete
+      cy.wait(1000)
+      
+      // Check that the header shows "Tasks" without a count
+      cy.get('h2').should('contain', 'Tasks')
+      cy.get('h2').should('not.contain', '(')
+    })
+  }) 
