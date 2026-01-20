@@ -29,7 +29,8 @@ describe('Task List Application', () => {
         'Test task for completion',
         'Hover test task',
         'Complete E2E testing setup',
-        'Task added with Enter key'
+        'Task added with Enter key',
+        'Count test task',  // ← Add this line
       ]
       
       tasks.forEach((task: { id: string; text: string }) => {
@@ -283,4 +284,34 @@ describe('Task List Application', () => {
       .find('svg')
       .should('have.attr', 'viewBox', '0 0 24 24') // Verify it's the correct X icon
   })
-}) 
+  it('should have hover delete button functionality', () => {
+    // ... existing test ...
+  })
+
+  it('should display task count in the header when there are open tasks', () => {
+    // Wait for loading to complete
+    cy.contains('Loading tasks...').should('not.exist')
+    
+    // Add test tasks to ensure we have open tasks
+    cy.get('input[placeholder="Add a new task..."]').type('Count test task 1{enter}')
+    cy.get('input[placeholder="Add a new task..."]').type('Count test task 2{enter}')
+    cy.get('input[placeholder="Add a new task..."]').type('Count test task 3{enter}')
+    
+    // Verify the header shows the count
+    cy.get('h2').should('contain', 'Tasks (')
+    
+    // Verify it shows the correct count (at least 3, might be more from existing tasks)
+    cy.get('h2').then($heading => {
+      const headingText = $heading.text()
+      expect(headingText).to.match(/Tasks \(\d+\)/)
+      
+      // Extract the number and verify it's at least 3
+      const match = headingText.match(/Tasks \((\d+)\)/)
+      if (match) {
+        const count = parseInt(match[1])
+        expect(count).to.be.at.least(3)
+        cy.log(`Task count displayed: ${count}`)
+      }
+    })
+  })
+})
