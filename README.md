@@ -26,7 +26,7 @@ This project is designed to simulate a modern frontend development environment w
 
 ## Tech Stack
 
-- **React 18** - Modern React with hooks and functional components
+- **React 19** - Modern React with hooks and functional components
 - **TypeScript** - Type-safe JavaScript for better development experience
 - **Vite** - Fast build tool and development server
 - **Tailwind CSS** - Utility-first CSS framework for rapid styling
@@ -38,13 +38,12 @@ This project is designed to simulate a modern frontend development environment w
 
 ### Prerequisites
 
-- **Node.js** (v20 or higher) with npm
+- **Node.js** (v20.19.0 or higher) with npm
   - Optional: use `nvm` for Node.js version management (not required)
-- **Yarn** (optional) - if you prefer `yarn install` over `npm install`
 
 Check your Node version:
 ```bash
-node -v  # should be >= 20
+node -v  # should be >= 20.19.0
 ```
 
 ### Installation
@@ -53,12 +52,10 @@ node -v  # should be >= 20
 
 2. **Install dependencies**:
    ```bash
-   npm install
+   npm ci
    ```
-   or with Yarn:
-   ```bash
-   yarn install
-   ```
+   
+   `npm ci` is recommended because it installs **exactly** what's in `package-lock.json` for a consistent, reproducible setup (great for classrooms and CI).
 
 ### Running the Application
 
@@ -87,10 +84,6 @@ This resets `db.json` from `db-backup.json`.
 
 ```bash
 npm run dev
-```
-or with Yarn:
-```bash
-yarn dev
 ```
 
 #### 3. Access the Application
