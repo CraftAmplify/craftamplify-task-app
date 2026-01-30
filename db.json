@@ -13,17 +13,27 @@
     {
       "id": "3",
       "text": "Prompt Cursor to generate a basic HTML structure",
-      "completed": false
+      "completed": true
     },
     {
       "id": "4",
       "text": "Use AI to apply design system styles to a UI component",
-      "completed": false
+      "completed": true
     },
     {
       "id": "5",
       "text": "Understand how to make a small UI fix in a mock codebase",
-      "completed": false
+      "completed": true
+    },
+    {
+      "text": "task 1",
+      "completed": true,
+      "id": "hd_82RB"
+    },
+    {
+      "text": "Task 2020202",
+      "completed": false,
+      "id": "WvbdmoS"
     }
   ]
 }
