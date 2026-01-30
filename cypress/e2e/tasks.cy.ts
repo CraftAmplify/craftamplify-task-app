@@ -29,7 +29,11 @@ describe('Task List Application', () => {
         'Test task for completion',
         'Hover test task',
         'Complete E2E testing setup',
-        'Task added with Enter key'
+        'Task added with Enter key',
+        'E2E test open count task',
+        'Task to complete for count test',
+        'Task to uncomplete for count test',
+        'Only task for completion'
       ]
       
       tasks.forEach((task: { id: string; text: string }) => {
@@ -282,5 +286,176 @@ describe('Task List Application', () => {
       .and('contain.html', 'svg') // Should contain the X icon SVG
       .find('svg')
       .should('have.attr', 'viewBox', '0 0 24 24') // Verify it's the correct X icon
+  })
+  it('should display open task count in Tasks header on initial load', () => {
+    // Wait for loading to complete
+    cy.contains('Loading tasks...').should('not.exist')
+    
+    // Get the h2 heading
+    cy.get('h2').then($header => {
+      const headerText = $header.text()
+      cy.log(`Header text: ${headerText}`)
+      
+      // Count the actual open tasks on the page
+      cy.get('.task-text:not(.completed-task)').then($openTasks => {
+        const openCount = $openTasks.length
+        cy.log(`Open task count: ${openCount}`)
+        
+        if (openCount > 0) {
+          // Should show "Tasks (X)" format
+          cy.get('h2').should('contain', `Tasks (${openCount})`)
+        } else {
+          // Should show just "Tasks"
+          cy.get('h2').should('contain', 'Tasks')
+          cy.get('h2').should('not.contain', '(')
+        }
+      })
+    })
+  })
+
+  it('should update open task count when a new task is added', () => {
+    // Wait for loading to complete
+    cy.contains('Loading tasks...').should('not.exist')
+    
+    // Get initial open task count
+    cy.get('.task-text:not(.completed-task)').then($openTasks => {
+      const initialOpenCount = $openTasks.length
+      cy.log(`Initial open task count: ${initialOpenCount}`)
+      
+      // Add a new task
+      cy.get('input[placeholder="Add a new task..."]').type('E2E test open count task{enter}')
+      
+      // Wait for task to be added
+      cy.contains('E2E test open count task').should('be.visible')
+      
+      // Verify the count increased by 1
+      const expectedCount = initialOpenCount + 1
+      cy.get('h2').should('contain', `Tasks (${expectedCount})`)
+      cy.log(`Updated count: ${expectedCount}`)
+    })
+  })
+
+  it('should decrease open task count when a task is marked complete', () => {
+    // Wait for loading to complete
+    cy.contains('Loading tasks...').should('not.exist')
+    
+    // Add a new open task to test with
+    cy.get('input[placeholder="Add a new task..."]').type('Task to complete for count test{enter}')
+    cy.contains('Task to complete for count test').should('be.visible')
+    
+    // Get the count before completing
+    cy.get('h2').then($header => {
+      const beforeText = $header.text()
+      const beforeMatch = beforeText.match(/Tasks \((\d+)\)/)
+      const countBefore = beforeMatch ? parseInt(beforeMatch[1]) : 0
+      cy.log(`Count before completion: ${countBefore}`)
+      
+      // Complete the task
+      cy.get('.task-text').contains('Task to complete for count test')
+        .parent()
+        .parent()
+        .find('[data-slot="checkbox"]')
+        .click({ force: true })
+      
+      // Wait for animation
+      cy.wait(2000)
+      
+      // Verify the task is completed (has strikethrough)
+      cy.get('.task-text').contains('Task to complete for count test')
+        .should('have.class', 'completed-task')
+      
+      // Verify count decreased by 1
+      const expectedCount = countBefore - 1
+      if (expectedCount > 0) {
+        cy.get('h2').should('contain', `Tasks (${expectedCount})`)
+      } else {
+        // If no open tasks remain, should show just "Tasks"
+        cy.get('h2').should('contain', 'Tasks')
+        cy.get('h2').should('not.contain', '(')
+      }
+      cy.log(`Count after completion: ${expectedCount}`)
+    })
+  })
+
+  it('should increase open task count when a completed task is unchecked', () => {
+    // Wait for loading to complete
+    cy.contains('Loading tasks...').should('not.exist')
+    
+    // Add and complete a task
+    cy.get('input[placeholder="Add a new task..."]').type('Task to uncomplete for count test{enter}')
+    cy.contains('Task to uncomplete for count test').should('be.visible')
+    
+    // Complete it
+    cy.get('.task-text').contains('Task to uncomplete for count test')
+      .parent()
+      .parent()
+      .find('[data-slot="checkbox"]')
+      .click({ force: true })
+    
+    // Wait for animation
+    cy.wait(2000)
+    
+    // Get the count while task is completed
+    cy.get('h2').then($header => {
+      const beforeText = $header.text()
+      const beforeMatch = beforeText.match(/Tasks \((\d+)\)/)
+      const countBefore = beforeMatch ? parseInt(beforeMatch[1]) : 0
+      cy.log(`Count with task completed: ${countBefore}`)
+      
+      // Uncheck the task
+      cy.get('.task-text').contains('Task to uncomplete for count test')
+        .parent()
+        .parent()
+        .find('[data-slot="checkbox"]')
+        .click({ force: true })
+      
+      // Wait for animation
+      cy.wait(2000)
+      
+      // Verify the task is no longer completed
+      cy.get('.task-text').contains('Task to uncomplete for count test')
+        .should('not.have.class', 'completed-task')
+      
+      // Verify count increased by 1
+      const expectedCount = countBefore + 1
+      cy.get('h2').should('contain', `Tasks (${expectedCount})`)
+      cy.log(`Count after unchecking: ${expectedCount}`)
+    })
+  })
+
+  it('should show no count when all tasks are completed', () => {
+    // Wait for loading to complete
+    cy.contains('Loading tasks...').should('not.exist')
+    
+    // Add a single test task
+    cy.get('input[placeholder="Add a new task..."]').type('Only task for completion{enter}')
+    cy.contains('Only task for completion').should('be.visible')
+    
+    // Verify count shows (at least 1, could be more if other tasks exist)
+    cy.get('h2').invoke('text').should('match', /Tasks \(\d+\)/)
+    
+    // Complete the task
+    cy.get('.task-text').contains('Only task for completion')
+      .parent()
+      .parent()
+      .find('[data-slot="checkbox"]')
+      .click({ force: true })
+    
+    // Wait for animation
+    cy.wait(2000)
+    
+    // Check if there are any other open tasks
+    cy.get('.task-text:not(.completed-task)').then($openTasks => {
+      if ($openTasks.length === 0) {
+        // If no open tasks, should show just "Tasks" without count
+        cy.get('h2').should('contain', 'Tasks')
+        cy.get('h2').should('not.contain', '(')
+        cy.log('All tasks completed - no count displayed')
+      } else {
+        // If other open tasks exist, should show their count
+        cy.get('h2').should('contain', `Tasks (${$openTasks.length})`)
+        cy.log(`Other open tasks remain: ${$openTasks.length}`)
+      }
+    })
   })
 }) 
