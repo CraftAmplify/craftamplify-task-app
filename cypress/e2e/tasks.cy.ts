@@ -283,4 +283,31 @@ describe('Task List Application', () => {
       .find('svg')
       .should('have.attr', 'viewBox', '0 0 24 24') // Verify it's the correct X icon
   })
+
+  it('should display task count in the header when there are open tasks', () => {
+    
+    // Wait for loading to complete
+    cy.contains('Loading tasks...').should('not.exist')
+
+ // Add test tasks to ensure we have open tasks
+ cy.get('input[placeholder="Add a new task..."]').type('Task count test 1{enter}')
+ cy.get('input[placeholder="Add a new task..."]').type('Task count test 2{enter}')
+
+ // Verify the header shows "Tasks (X)" where X is the count of open tasks
+ cy.get('h2').should('contain', 'Tasks')
+    
+ // Count the actual open tasks
+ cy.get('.task-text:not(.completed-task)').then($openTasks => {
+   const openTaskCount = $openTasks.length
+   cy.log(`Found ${openTaskCount} open tasks`)
+   
+   if (openTaskCount > 0) {
+     // Verify the count is displayed in parentheses
+     cy.get('h2').should('contain', `Tasks (${openTaskCount})`)
+   }
+
+  })
+
+})
+
 }) 
