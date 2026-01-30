@@ -283,4 +283,31 @@ describe('Task List Application', () => {
       .find('svg')
       .should('have.attr', 'viewBox', '0 0 24 24') // Verify it's the correct X icon
   })
+  it('should display "Tasks" when there are no open tasks', () => {
+    // Wait for loading to complete
+    cy.contains('Loading tasks...').should('not.exist')
+    
+    // First, get all tasks and complete them via API
+    cy.request('GET', 'http://localhost:3000/tasks').then((response) => {
+      const tasks = response.body
+      
+      // Complete all tasks that aren't already completed
+      tasks.forEach((task: { id: string; completed: boolean }) => {
+        if (!task.completed) {
+          cy.request('PATCH', `http://localhost:3000/tasks/${task.id}`, {
+            completed: true
+          })
+        }
+      })
+    })
+    
+    // Reload the page to see the updated state
+    cy.reload()
+    cy.contains('Loading tasks...').should('not.exist')
+    cy.wait(1000)
+    
+    // Verify the heading shows "Tasks" without count
+    cy.get('h2').should('contain', 'Tasks')
+    cy.get('h2').should('not.contain', '(')
+  })
 }) 
