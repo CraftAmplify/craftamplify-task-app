@@ -29,7 +29,8 @@ describe('Task List Application', () => {
         'Test task for completion',
         'Hover test task',
         'Complete E2E testing setup',
-        'Task added with Enter key'
+        'Task added with Enter key',
+        'E2E task count test'
       ]
       
       tasks.forEach((task: { id: string; text: string }) => {
@@ -282,5 +283,43 @@ describe('Task List Application', () => {
       .and('contain.html', 'svg') // Should contain the X icon SVG
       .find('svg')
       .should('have.attr', 'viewBox', '0 0 24 24') // Verify it's the correct X icon
+  })
+
+  it('should display open task count in Tasks heading when there are open tasks', () => {
+    // Wait for loading to complete
+    cy.contains('Loading tasks...').should('not.exist')
+
+    // Add a task so we have at least one open task
+    cy.get('input[placeholder="Add a new task..."]').type('E2E task count test{enter}')
+    cy.contains('E2E task count test').should('be.visible')
+
+    // Tasks heading should show count in parentheses (e.g. "Tasks (1)" or "Tasks (3)")
+    cy.get('h2')
+      .invoke('text')
+      .should('match', /^Tasks \(\d+\)$/)
+  })
+
+  it('should display "Tasks" without count when there are no open tasks', () => {
+    // Clear all tasks so we can control state (only open tasks affect the count)
+    cy.request('GET', 'http://localhost:3000/tasks').then((response) => {
+      response.body.forEach((task: { id: string }) => {
+        cy.request('DELETE', `http://localhost:3000/tasks/${task.id}`)
+      })
+    })
+
+    // Reload the app so it sees the empty list
+    cy.visit('/')
+    cy.contains('Loading tasks...').should('not.exist')
+
+    // Add one task and complete it so we have zero open tasks
+    cy.get('input[placeholder="Add a new task..."]').type('E2E task count zero test{enter}')
+    cy.contains('E2E task count zero test').should('be.visible')
+    cy.get('.task-text').contains('E2E task count zero test').parent().parent().find('[data-slot="checkbox"]').click()
+
+    // Wait for completion animation / reorder
+    cy.wait(2000)
+
+    // Tasks heading should be "Tasks" with no parentheses
+    cy.get('h2').should('have.text', 'Tasks')
   })
 }) 
