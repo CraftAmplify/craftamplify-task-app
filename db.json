@@ -8,7 +8,7 @@
     {
       "id": "2",
       "text": "Practice basic terminal commands (cd, ls, mkdir)",
-      "completed": true
+      "completed": false
     },
     {
       "id": "3",
