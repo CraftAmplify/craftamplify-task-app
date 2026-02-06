@@ -3,27 +3,32 @@
     {
       "id": "1",
       "text": "Set up my AI-powered coding environment (Cursor, Git, Node.js)",
-      "completed": false
-    },
-    {
-      "id": "2",
-      "text": "Practice basic terminal commands (cd, ls, mkdir)",
-      "completed": false
-    },
-    {
-      "id": "3",
-      "text": "Prompt Cursor to generate a basic HTML structure",
-      "completed": false
-    },
-    {
-      "id": "4",
-      "text": "Use AI to apply design system styles to a UI component",
-      "completed": false
+      "completed": true
     },
     {
       "id": "5",
       "text": "Understand how to make a small UI fix in a mock codebase",
-      "completed": false
+      "completed": true
+    },
+    {
+      "text": "ajwdla",
+      "completed": true,
+      "id": "Y8m7rWo"
+    },
+    {
+      "text": "sdcs",
+      "completed": true,
+      "id": "xoqDdWD"
+    },
+    {
+      "text": "task",
+      "completed": false,
+      "id": "muLSwUr"
+    },
+    {
+      "text": "task",
+      "completed": false,
+      "id": "-LpsRL7"
     }
   ]
 }
