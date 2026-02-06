@@ -19,6 +19,8 @@ interface TaskItemProps {
   isDeleting: boolean
   /** Whether the task is currently being moved (for animation) */
   isMoving: boolean
+  /** Whether the task is currently being added (for animation) */
+  isAdding: boolean
 }
 
 /**
@@ -33,13 +35,14 @@ interface TaskItemProps {
  * @param props - The component props
  * @returns JSX element representing a single task item
  */
-export function TaskItem({ 
-  task, 
-  onToggle, 
-  onDelete, 
+export function TaskItem({
+  task,
+  onToggle,
+  onDelete,
   onSwipeOpen,
   isDeleting,
-  isMoving
+  isMoving,
+  isAdding
 }: TaskItemProps) {
   // Initialize swipe-to-delete functionality
   const swipeHandlers = useSwipeToDelete({ 
@@ -68,7 +71,7 @@ export function TaskItem({
   return (
     <div
       ref={swipeHandlers.elementRef}
-      className={`task-item ${isDeleting ? 'deleting' : ''} ${isMoving ? 'moving' : ''}`}
+      className={`task-item ${isDeleting ? 'deleting' : ''} ${isMoving ? 'moving' : ''} ${isAdding ? 'adding' : ''}`}
       onTouchStart={swipeHandlers.handleTouchStart}
       onTouchMove={swipeHandlers.handleTouchMove}
       onTouchEnd={swipeHandlers.handleTouchEnd}
