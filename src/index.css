@@ -98,6 +98,16 @@
     line-height: 1.2;
     padding-bottom: 2px;
   }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-3deg); }
+    75% { transform: rotate(3deg); }
+  }
+
+  .wiggle-on-hover:hover:not(:disabled) {
+    animation: wiggle 0.5s ease-in-out;
+  }
   
   .task-item {
     transition: all 0.2s ease-in-out;

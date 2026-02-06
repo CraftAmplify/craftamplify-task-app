@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import confetti from 'canvas-confetti'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 
@@ -13,6 +14,22 @@ interface AddTaskFormProps {
 export function AddTaskForm({ onAddTask }: AddTaskFormProps) {
   /** Current value of the task input field */
   const [taskText, setTaskText] = useState('')
+
+  /**
+   * Triggers confetti explosion from the button
+   */
+  const triggerConfetti = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = (rect.left + rect.width / 2) / window.innerWidth
+    const y = (rect.top + rect.height / 2) / window.innerHeight
+
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { x, y },
+      colors: ['#C616B2', '#a4129a', '#2783BF', '#1e6a9e'],
+    })
+  }
 
   /**
    * Handles form submission
@@ -43,6 +60,8 @@ export function AddTaskForm({ onAddTask }: AddTaskFormProps) {
         disabled={!taskText.trim()}
         variant="craft"
         size="lg"
+        className="wiggle-on-hover"
+        onClick={triggerConfetti}
       >
         Add
       </Button>
