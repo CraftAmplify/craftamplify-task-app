@@ -219,7 +219,7 @@
   /* Task deletion animation */
   .task-item {
     max-height: 60px; /* Set explicit max-height for smooth animation */
-    transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out, transform 0.4s ease-out;
 }
 
   .task-item.deleting {
@@ -255,5 +255,28 @@
   
   .task-item.moving .delete-button {
     transform: none;
+  }
+
+  /* Task addition animation - fade in */
+  .task-item.adding {
+    animation: fadeIn 0.4s ease-out forwards;
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      max-height: 0;
+    }
+    to {
+      opacity: 1;
+      max-height: 60px;
+    }
+  }
+
+  /* Ensure existing tasks slide down smoothly when new task is added */
+  .task-item:not(.adding):not(.deleting):not(.moving) {
+    transition: all 0.4s ease-out;
   }
 }
