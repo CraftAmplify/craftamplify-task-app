@@ -3,6 +3,7 @@ import { AddTaskForm } from '@/components/AddTaskForm'
 import { TaskItem } from '@/components/TaskItem'
 import { TaskService, TaskServiceError, type Task } from '@/services/taskService'
 import { ANIMATION, LOADING_MESSAGES } from '@/constants'
+import { useConfetti } from '@/hooks/useConfetti'
 
 /**
  * Main App Component
@@ -26,6 +27,7 @@ function App() {
   const [openElementRef, setOpenElementRef] = useState<React.RefObject<HTMLDivElement | null> | null>(null)
   const [deletingTasks, setDeletingTasks] = useState<Set<string>>(new Set())
   const [movingTasks, setMovingTasks] = useState<Set<string>>(new Set())
+  const { triggerConfetti } = useConfetti()
   const [addingTaskId, setAddingTaskId] = useState<string | null>(null)
 
   // Fetch tasks on component mount
@@ -152,10 +154,15 @@ function App() {
       if (positionChanged) {
         // Start the move-out animation
         setMovingTasks(prev => new Set(prev).add(taskId))
-        
+
         // Wait for animation to complete, then update and reorder
         setTimeout(async () => {
           await TaskService.updateTask(taskId, { completed: !completed })
+
+          // Trigger confetti when completing a task
+          if (!completed) {
+            triggerConfetti()
+          }
 
           // Update the task completion status and reorder
           setTasks(newOrder)
@@ -172,6 +179,11 @@ function App() {
       } else {
         // No position change, just update the completion status
         await TaskService.updateTask(taskId, { completed: !completed })
+
+        // Trigger confetti when completing a task
+        if (!completed) {
+          triggerConfetti()
+        }
 
         setTasks(prevTasks =>
           prevTasks.map(task =>
