@@ -28,6 +28,7 @@ function App() {
   const [deletingTasks, setDeletingTasks] = useState<Set<string>>(new Set())
   const [movingTasks, setMovingTasks] = useState<Set<string>>(new Set())
   const { triggerConfetti } = useConfetti()
+  const [addingTaskId, setAddingTaskId] = useState<string | null>(null)
 
   // Fetch tasks on component mount
   useEffect(() => {
@@ -71,7 +72,15 @@ function App() {
       }
 
       const addedTask = await TaskService.createTask(newTaskData)
+
+      // Add task and trigger animation
       setTasks(prevTasks => [addedTask, ...prevTasks]) // Add to beginning like the HTML version
+      setAddingTaskId(addedTask.id)
+
+      // Clear animation state after duration
+      setTimeout(() => {
+        setAddingTaskId(null)
+      }, ANIMATION.ADD_DURATION)
     } catch (err) {
       console.error('Error adding task:', err)
       if (err instanceof TaskServiceError) {
@@ -329,13 +338,14 @@ function App() {
               ) : (
                 orderedTasks.map((task, index) => (
                   <div key={task.id}>
-                    <TaskItem 
-                      task={task} 
-                      onToggle={handleToggleTask} 
-                      onDelete={handleDeleteTask} 
+                    <TaskItem
+                      task={task}
+                      onToggle={handleToggleTask}
+                      onDelete={handleDeleteTask}
                       onSwipeOpen={handleSwipeOpen}
                       isDeleting={deletingTasks.has(task.id)}
                       isMoving={movingTasks.has(task.id)}
+                      isAdding={addingTaskId === task.id}
                     />
                     {index < orderedTasks.length - 1 && (
                       <div className="h-px my-2 bg-gray-200"></div>
@@ -351,10 +361,10 @@ function App() {
         <div 
           className="w-full"
           style={{
-            backgroundImage: "url('/footer-image.png')",
+            backgroundImage: "url(https://wallpapers.com/images/featured/nyan-cat-background-1ldrgvod52e6vi0m.jpg)",
             backgroundSize: '100% auto',
             backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center bottom',
+            backgroundPosition: 'center calc(50% - 60px)',
             paddingBottom: '16.67%'
           }}
         ></div>

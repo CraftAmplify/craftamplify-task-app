@@ -17,6 +17,8 @@ export const ANIMATION = {
   DELETE_DURATION: 300,
   /** Duration for task movement animation in milliseconds */
   MOVE_DURATION: 150,
+  /** Duration for task addition animation in milliseconds */
+  ADD_DURATION: 400,
   /** General transition duration for UI elements in milliseconds */
   TRANSITION_DURATION: 200,
 } as const
