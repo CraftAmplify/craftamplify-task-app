@@ -3,12 +3,12 @@
     {
       "id": "1",
       "text": "Set up my AI-powered coding environment (Cursor, Git, Node.js)",
-      "completed": false
+      "completed": true
     },
     {
       "id": "2",
       "text": "Practice basic terminal commands (cd, ls, mkdir)",
-      "completed": false
+      "completed": true
     },
     {
       "id": "3",
