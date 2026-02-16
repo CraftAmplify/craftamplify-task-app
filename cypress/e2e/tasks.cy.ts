@@ -283,4 +283,50 @@ describe('Task List Application', () => {
       .find('svg')
       .should('have.attr', 'viewBox', '0 0 24 24') // Verify it's the correct X icon
   })
-}) 
+
+  it('should display task count in header when there are open tasks', () => {
+    // Wait for loading to complete
+    cy.contains('Loading tasks...').should('not.exist')
+    
+    // Add some open tasks
+    cy.get('input[placeholder="Add a new task..."]').type('Open task 1{enter}')
+    cy.get('input[placeholder="Add a new task..."]').type('Open task 2{enter}')
+    
+    // Verify the heading displays the count
+    cy.get('h2').should('contain', 'Tasks (')
+    cy.get('h2').should('contain', ')')
+    
+    // Verify it shows the correct count format
+    cy.get('h2').then($heading => {
+      const headingText = $heading.text()
+      cy.log(`Heading text: ${headingText}`)
+      expect(headingText).to.match(/Tasks \(\d+\)/)
+    })
+  })
+  
+  it('should update task count when a new task is added', () => {
+    // Wait for loading to complete
+    cy.contains('Loading tasks...').should('not.exist')
+    
+    // Get initial count from the heading
+    cy.get('h2').then($heading => {
+      const headingText = $heading.text()
+      const initialMatch = headingText.match(/Tasks \((\d+)\)/)
+      const initialCount = initialMatch ? parseInt(initialMatch[1]) : 0
+      cy.log(`Initial open task count: ${initialCount}`)
+      
+      // Add a new task
+      cy.get('input[placeholder="Add a new task..."]').type('New task for count test{enter}')
+      
+      // Wait for the task to be added
+      cy.contains('New task for count test').should('be.visible')
+      
+      // Wait for the heading to update with the new count
+      cy.get('h2', { timeout: 5000 }).should(($h2) => {
+        const newHeadingText = $h2.text()
+        const expectedCount = initialCount + 1
+        expect(newHeadingText).to.contain(`Tasks (${expectedCount})`)
+      })
+    })
+  })
+})  // <-- Final closing brace

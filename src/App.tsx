@@ -276,9 +276,11 @@ function App() {
   }
 
   const orderedTasks = reorderTasks(tasks)
+  const openTaskCount = tasks.filter(t => !t.completed).length
 
   return (
     <div className="bg-white min-h-screen font-inter">
+
       <div className="max-w-[1000px] mx-auto bg-white min-h-screen flex flex-col">
         {/* Content Container */}
         <div className="flex-1 p-4 flex flex-col gap-4">
@@ -301,9 +303,9 @@ function App() {
           </div>
           
           {/* Tasks Section */}
-      <div>
+          <div>
             <h2>
-              Tasks
+              Tasks{openTaskCount > 0 && ` (${openTaskCount})`}
             </h2>
             
             {/* Tasks List */}

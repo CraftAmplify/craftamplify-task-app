@@ -24,6 +24,11 @@
       "id": "5",
       "text": "Understand how to make a small UI fix in a mock codebase",
       "completed": false
+    },
+    {
+      "text": "New task for count test",
+      "completed": false,
+      "id": "Jyrqpwt"
     }
   ]
 }
