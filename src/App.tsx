@@ -270,6 +270,8 @@ function App() {
    * @returns Reordered array with active tasks first, then completed tasks
    */
   const reorderTasks = (tasks: Task[]) => {
+    const openCount = tasks.filter(t => !t.completed).length
+    const totalCount = tasks.length
     const activeTasks = tasks.filter(t => !t.completed)
     const completedTasks = tasks.filter(t => t.completed)
     return [...activeTasks, ...completedTasks]
@@ -303,7 +305,7 @@ function App() {
           {/* Tasks Section */}
       <div>
             <h2>
-              Tasks
+              {orderedTasks.length === 0 ? 'No tasks' : `${orderedTasks.filter(t => !t.completed).length} of ${tasks.length} tasks`}
             </h2>
             
             {/* Tasks List */}
