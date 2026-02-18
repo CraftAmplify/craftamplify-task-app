@@ -283,4 +283,34 @@ describe('Task List Application', () => {
       .find('svg')
       .should('have.attr', 'viewBox', '0 0 24 24') // Verify it's the correct X icon
   })
+  it('should show "Tasks" in the heading when there are no open tasks', () => {
+    cy.contains('Loading tasks...').should('not.exist')
+
+    // Mark all existing tasks as completed so we can get to 0 open
+    cy.request('GET', 'http://localhost:3000/tasks').then((response) => {
+      response.body.forEach((task: { id: string }) => {
+        cy.request('PATCH', `http://localhost:3000/tasks/${task.id}`, { completed: true })
+      })
+    })
+
+    // Reload the page so the UI shows the updated state
+    cy.reload()
+    cy.contains('Loading tasks...').should('not.exist')
+
+    // Add one task
+    cy.get('input[placeholder="Add a new task..."]').type('Only task for count test{enter}')
+    cy.contains('Only task for count test').should('be.visible')
+
+    // Complete it so there are zero open tasks
+    cy.get('.task-text').contains('Only task for count test')
+      .parent()
+      .parent()
+      .find('[data-slot="checkbox"]')
+      .click({ force: true })
+
+    cy.wait(2000)
+
+    // Now the heading should say exactly "Tasks"
+    cy.get('h2').should('have.text', 'Tasks')
+  })
 }) 
