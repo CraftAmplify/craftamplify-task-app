@@ -305,7 +305,7 @@ function App() {
           {/* Tasks Section */}
       <div>
             <h2>
-              {orderedTasks.length === 0 ? 'No tasks' : `${orderedTasks.filter(t => !t.completed).length} of ${tasks.length} tasks`}
+              {orderedTasks.length === 0 ? 'No Tasks' : `${orderedTasks.filter(t => !t.completed).length} of ${tasks.length} Tasks`}
             </h2>
             
             {/* Tasks List */}
