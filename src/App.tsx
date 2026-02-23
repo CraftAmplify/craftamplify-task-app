@@ -275,6 +275,7 @@ function App() {
     return [...activeTasks, ...completedTasks]
   }
 
+  
   const orderedTasks = reorderTasks(tasks)
 
   return (
