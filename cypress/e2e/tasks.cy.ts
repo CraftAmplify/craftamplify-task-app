@@ -29,7 +29,8 @@ describe('Task List Application', () => {
         'Test task for completion',
         'Hover test task',
         'Complete E2E testing setup',
-        'Task added with Enter key'
+        'Task added with Enter key',
+        'Tasks heading count test'
       ]
       
       tasks.forEach((task: { id: string; text: string }) => {
@@ -196,6 +197,35 @@ describe('Task List Application', () => {
       // Verify no tasks were added
       cy.get('.task-text').should('have.length', initialCount)
     })
+  })
+
+  it('should update Tasks heading from count to "all done" when going from 0 to 1 task then completing it', () => {
+    // Start with 0 tasks: delete all via API
+    cy.request('GET', 'http://localhost:3000/tasks').then((response) => {
+      const tasks = response.body as { id: string }[]
+      tasks.forEach((task) => {
+        cy.request('DELETE', `http://localhost:3000/tasks/${task.id}`)
+      })
+    })
+    cy.reload()
+    cy.contains('Loading tasks...').should('not.exist')
+
+    // 0 tasks → heading is "Tasks"
+    cy.get('h2').should('have.text', 'Tasks')
+
+    // Add one task → heading shows "Tasks (1)"
+    cy.get('input[placeholder="Add a new task..."]').type('Tasks heading count test{enter}')
+    cy.contains('Tasks heading count test').should('be.visible')
+    cy.get('h2').should('contain', 'Tasks (1)')
+
+    // Complete that task → heading shows "all done"
+    cy.get('.task-text').contains('Tasks heading count test')
+      .parent()
+      .parent()
+      .find('[data-slot="checkbox"]')
+      .click({ force: true })
+    cy.wait(500)
+    cy.get('h2').should('contain', 'all done')
   })
 
   it('should display completed tasks with strikethrough', () => {
