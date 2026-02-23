@@ -3,7 +3,7 @@
     {
       "id": "1",
       "text": "Set up my AI-powered coding environment (Cursor, Git, Node.js)",
-      "completed": true
+      "completed": false
     },
     {
       "id": "2",
@@ -13,7 +13,7 @@
     {
       "id": "3",
       "text": "Prompt Cursor to generate a basic HTML structure",
-      "completed": false
+      "completed": true
     },
     {
       "id": "4",
