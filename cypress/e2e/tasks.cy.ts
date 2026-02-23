@@ -283,4 +283,36 @@ describe('Task List Application', () => {
       .find('svg')
       .should('have.attr', 'viewBox', '0 0 24 24') // Verify it's the correct X icon
   })
+
+  it('should update Tasks section heading when task is added and when task is completed', () => {
+    // 1. Start at 0 open tasks: clear all tasks via API, then reload the page
+    cy.request('GET', 'http://localhost:3000/tasks').then((response) => {
+      const tasks = response.body as Array<{ id: string }>
+      tasks.forEach((task) => {
+        cy.request('DELETE', `http://localhost:3000/tasks/${task.id}`)
+      })
+    })
+    cy.visit('/')
+    cy.contains('Loading tasks...').should('not.exist')
+
+    // 2. Heading should show "Tasks" (zero open)
+    cy.get('h2').should('have.text', 'Tasks')
+
+    // 3. Add one task
+    cy.get('input[placeholder="Add a new task..."]').type('E2E heading update test{enter}')
+
+    // 4. Heading should show "Tasks (1)"
+    cy.get('h2').should('have.text', 'Tasks (1)')
+
+    // 5. Complete that task (click its checkbox)
+    cy.get('.task-text').contains('E2E heading update test')
+      .parent()
+      .parent()
+      .find('[data-slot="checkbox"]')
+      .click({ force: true })
+
+    // 6. Wait for animation, then heading should be "Tasks" again
+    cy.wait(2000)
+    cy.get('h2').should('have.text', 'Tasks')
+  })
 }) 
