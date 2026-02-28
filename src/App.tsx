@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { AddTaskForm } from '@/components/AddTaskForm'
 import { TaskItem } from '@/components/TaskItem'
 import { TaskService, TaskServiceError, type Task } from '@/services/taskService'
+import { getTasksLabelSuffix } from '@/lib/tasksLabel'
 import { ANIMATION, LOADING_MESSAGES } from '@/constants'
 
 /**
@@ -276,6 +277,7 @@ function App() {
   }
 
   const orderedTasks = reorderTasks(tasks)
+  const tasksLabelSuffix = getTasksLabelSuffix(tasks)
 
   return (
     <div className="bg-white min-h-screen font-inter">
@@ -303,7 +305,7 @@ function App() {
           {/* Tasks Section */}
       <div>
             <h2>
-              Tasks
+              Tasks{tasksLabelSuffix}
             </h2>
             
             {/* Tasks List */}
