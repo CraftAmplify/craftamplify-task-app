@@ -276,6 +276,8 @@ function App() {
   }
 
   const orderedTasks = reorderTasks(tasks)
+  const activeTaskCount = tasks.filter(t => !t.completed).length
+
 
   return (
     <div className="bg-white min-h-screen font-inter">
@@ -303,8 +305,9 @@ function App() {
           {/* Tasks Section */}
       <div>
             <h2>
-              Tasks
+              Tasks{activeTaskCount > 0 && ` (${activeTaskCount})`}
             </h2>
+
             
             {/* Tasks List */}
             <div className="space-y-2">
