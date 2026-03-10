@@ -43,6 +43,7 @@ export function AddTaskForm({ onAddTask }: AddTaskFormProps) {
         disabled={!taskText.trim()}
         variant="craft"
         size="lg"
+      
       >
         Add
       </Button>
