@@ -60,6 +60,7 @@
     "vite": "^7.0.4"
   },
   "overrides": {
-    "test-exclude": "^7.0.1"
+    "test-exclude": "^7.0.1",
+    "brace-expansion": "1.1.13"
   }
 }
