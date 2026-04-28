@@ -44,7 +44,7 @@ export function AddTaskForm({ onAddTask }: AddTaskFormProps) {
         variant="craft"
         size="default"
       >
-        Add
+        Add!!
       </Button>
     </form>
   )
