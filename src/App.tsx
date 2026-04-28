@@ -276,6 +276,8 @@ function App() {
   }
 
   const orderedTasks = reorderTasks(tasks)
+  const openTaskCount = tasks.filter((t) => !t.completed).length
+  const tasksHeading = openTaskCount > 0 ? `Tasks (${openTaskCount})` : 'Tasks'
 
   return (
     <div className="bg-white min-h-screen font-inter">
@@ -301,11 +303,9 @@ function App() {
           </div>
           
           {/* Tasks Section */}
-      <div>
-            <h2>
-              Tasks
-            </h2>
-            
+          <div>
+            <h2>{tasksHeading}</h2>
+
             {/* Tasks List */}
             <div className="space-y-2">
               {loading ? (
