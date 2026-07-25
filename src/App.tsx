@@ -4,6 +4,9 @@ import { TaskItem } from '@/components/TaskItem'
 import { TaskService, TaskServiceError, type Task } from '@/services/taskService'
 import { ANIMATION, LOADING_MESSAGES } from '@/constants'
 
+const delay = (ms: number) =>
+  new Promise<void>(resolve => window.setTimeout(resolve, ms))
+
 function App() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
@@ -105,20 +108,21 @@ function App() {
       if (positionChanged) {
         setMovingTasks(prev => new Set(prev).add(taskId))
         
-        // Persist after the exit animation so the reordered item does not jump.
-        setTimeout(async () => {
+        try {
+          // Persist after the exit animation so the reordered item does not jump.
+          await delay(ANIMATION.MOVE_DURATION)
           await TaskService.updateTask(taskId, { completed: nextCompleted })
 
           setTasks(newOrder)
           
-          setTimeout(() => {
-            setMovingTasks(prev => {
-              const newSet = new Set(prev)
-              newSet.delete(taskId)
-              return newSet
-            })
-          }, 50)
-        }, ANIMATION.MOVE_DURATION)
+          await delay(50)
+        } finally {
+          setMovingTasks(prev => {
+            const newSet = new Set(prev)
+            newSet.delete(taskId)
+            return newSet
+          })
+        }
       } else {
         await TaskService.updateTask(taskId, { completed: nextCompleted })
 
@@ -159,19 +163,20 @@ function App() {
       
       setDeletingTasks(prev => new Set(prev).add(taskId))
       
-      // Keep the item mounted until its exit animation completes.
-      setTimeout(async () => {
+      try {
+        // Keep the item mounted until its exit animation completes.
+        await delay(ANIMATION.DELETE_DURATION)
         await TaskService.deleteTask(taskId)
 
         setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId))
+      } finally {
         setDeletingTasks(prev => {
           const newSet = new Set(prev)
           newSet.delete(taskId)
           return newSet
         })
-        
         setOpenElementRef(null)
-      }, ANIMATION.DELETE_DURATION)
+      }
       
     } catch (err) {
       console.error('Error deleting task:', err)
