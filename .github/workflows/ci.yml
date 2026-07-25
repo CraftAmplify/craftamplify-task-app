@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [24.x]
 
     steps:
       - name: Checkout code
@@ -30,6 +30,9 @@ jobs:
 
       - name: Reset mock DB
         run: npm run db:reset
+
+      - name: Check formatting
+        run: npm run format:check
 
       - name: Run ESLint
         run: npm run lint
@@ -120,4 +123,4 @@ jobs:
           if [ -f vite-server.pid ]; then
             kill $(cat vite-server.pid) || true
             rm vite-server.pid
-          fi 
+          fi

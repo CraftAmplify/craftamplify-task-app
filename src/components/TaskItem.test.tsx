@@ -4,7 +4,7 @@ import { TaskItem } from './TaskItem'
 const task = {
   id: 'task-1',
   text: 'Write a test',
-  completed: false,
+  completed: false
 }
 
 describe('TaskItem', () => {

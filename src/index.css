@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-:root {
+  :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -66,23 +66,19 @@
   body {
     @apply bg-background text-foreground;
   }
-  
-  /* Default H1 styles */
+
   h1 {
     @apply gradient-text font-montserrat text-4xl font-normal leading-9 tracking-tight inline-block;
   }
-  
-  /* Default H2 styles */
+
   h2 {
     @apply font-montserrat text-base font-normal text-gray-500 leading-7 tracking-tight;
   }
-  
-  /* Default P styles */
+
   p {
     @apply text-gray-500;
   }
-  
-  /* Default span styles for task text */
+
   span {
     @apply font-inter text-base leading-6;
   }
@@ -90,7 +86,7 @@
 
 @layer utilities {
   .gradient-text {
-    background: linear-gradient(to right, #2783BF, #C616B2);
+    background: linear-gradient(to right, #2783bf, #c616b2);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -98,26 +94,26 @@
     line-height: 1.2;
     padding-bottom: 2px;
   }
-  
+
   .task-item {
     transition: all 0.2s ease-in-out;
     position: relative;
     overflow: hidden;
     transition: transform 0.3s ease;
-}
+  }
 
   .task-item:hover {
     background-color: #f8f9fa;
   }
-  
+
   .completed-task {
     text-decoration: line-through;
-    color: #AAAAAA !important;
-}
-  
+    color: #aaaaaa !important;
+  }
+
   .task-text {
     color: #444444;
-}
+  }
 
   .checkbox-custom {
     width: 18px;
@@ -126,27 +122,26 @@
     min-height: 18px;
     border: 1px solid #444444;
     border-radius: 2px;
-  display: flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
     flex-shrink: 0;
     margin-top: 3px;
-}
+  }
 
   .checkbox-custom.checked {
     background-color: #444444;
     border-color: #444444;
   }
 
-  /* Swipe delete button styles */
   .task-content {
     background: white;
     position: relative;
     z-index: 2;
     transition: transform 0.3s ease;
-}
+  }
 
   .delete-button {
     position: absolute;
@@ -177,7 +172,6 @@
     right: 0;
   }
 
-  /* Mouse hover delete button for desktop */
   .task-item:hover .hover-delete-button {
     opacity: 1;
     visibility: visible;
@@ -196,31 +190,29 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  cursor: pointer;
+    cursor: pointer;
     opacity: 0;
     visibility: hidden;
     transition: all 0.2s ease;
     z-index: 3;
     color: #6b7280;
-}
+  }
 
   .hover-delete-button:hover {
     background: #ef4444;
     color: white;
-}
+  }
 
-  /* Hide hover delete button on touch devices */
   @media (hover: none) and (pointer: coarse) {
     .hover-delete-button {
       display: none;
     }
   }
 
-  /* Task deletion animation */
   .task-item {
-    max-height: 60px; /* Set explicit max-height for smooth animation */
+    max-height: 60px;
     transition: all 0.3s ease-out;
-}
+  }
 
   .task-item.deleting {
     max-height: 0;
@@ -230,16 +222,15 @@
     overflow: hidden;
     transition: all 0.3s ease-out;
   }
-  
+
   .task-item.deleting .task-content {
     transform: none;
   }
-  
+
   .task-item.deleting .delete-button {
     transform: none;
   }
 
-  /* Task movement animation */
   .task-item.moving {
     max-height: 0;
     padding: 0;
@@ -248,11 +239,11 @@
     overflow: hidden;
     transition: all 0.15s ease-out;
   }
-  
+
   .task-item.moving .task-content {
     transform: none;
   }
-  
+
   .task-item.moving .delete-button {
     transform: none;
   }

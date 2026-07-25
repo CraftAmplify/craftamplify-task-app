@@ -5,7 +5,7 @@ import { TaskService, TaskServiceError } from './services/taskService'
 
 const tasks = [
   { id: '1', text: 'First task', completed: false },
-  { id: '2', text: 'Second task', completed: false },
+  { id: '2', text: 'Second task', completed: false }
 ]
 
 const renderApp = async () => {
