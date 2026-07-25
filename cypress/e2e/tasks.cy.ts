@@ -4,7 +4,7 @@ describe('Task List Application', () => {
   beforeEach(() => {
     // Wait for servers to be ready
     cy.wait(2000)
-    
+
     // Try to visit with retry logic
     cy.visit('/', { timeout: 30000 })
     
@@ -283,4 +283,4 @@ describe('Task List Application', () => {
       .find('svg')
       .should('have.attr', 'viewBox', '0 0 24 24') // Verify it's the correct X icon
   })
-}) 
+})

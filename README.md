@@ -38,12 +38,12 @@ This project is designed to simulate a modern frontend development environment w
 
 ### Prerequisites
 
-- **Node.js** (v20.19.0 or higher) with npm
+- **Node.js** (v24.0.0 or higher, within the Node 24 LTS line) with npm
   - Optional: use `nvm` for Node.js version management (not required)
 
 Check your Node version:
 ```bash
-node -v  # should be >= 20.19.0
+node -v  # should be v24.x
 ```
 
 ### Installation
@@ -183,17 +183,24 @@ Before running Cypress tests, you **must** have both servers running:
    npm run dev
    ```
 
-**Run E2E tests (recommended headless):**
+**Run E2E tests (default):**
 ```bash
-npm run cypress:run
-# or
 npm run e2e
 ```
 
-Optional (headed UI):
+This runs the suite headlessly and is the primary command to use.
+
+**Alternatives (not the primary workflow):**
 ```bash
+# Equivalent headless command
+npm run cypress:run
+
+# Run automatically in a visible Chrome window
+npm run e2e:headed
+
+# Open Cypress's interactive test-selection interface
 npm run cypress:open
-# or
+# Equivalent interactive command
 npm run e2e:open
 ```
 
@@ -226,6 +233,4 @@ The application is built with modern development practices:
 ## Contributing
 
 This application is designed for learning and demonstration purposes. Feel free to experiment with the code and explore different features and implementations. 
-
-
 
