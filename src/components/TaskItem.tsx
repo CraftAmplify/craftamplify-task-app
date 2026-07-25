@@ -3,36 +3,15 @@ import type { Task } from '@/services/taskService'
 import { useSwipeToDelete } from '@/hooks/useSwipeToDelete'
 import { Checkbox } from './ui/checkbox'
 
-/**
- * Props interface for the TaskItem component
- */
 interface TaskItemProps {
-  /** The task data to display */
   task: Task
-  /** Callback function when task completion status is toggled */
-  onToggle: (id: string, completed: boolean) => void
-  /** Callback function when task is deleted */
+  onToggle: (id: string, nextCompleted: boolean) => void
   onDelete: (id: string) => void
-  /** Callback function when swipe-to-delete is opened */
   onSwipeOpen: (elementRef: React.RefObject<HTMLDivElement | null>) => void
-  /** Whether the task is currently being deleted (for animation) */
   isDeleting: boolean
-  /** Whether the task is currently being moved (for animation) */
   isMoving: boolean
 }
 
-/**
- * TaskItem Component
- * 
- * Displays an individual task with interactive features:
- * - Checkbox to toggle completion status
- * - Swipe-to-delete functionality on touch devices
- * - Hover-to-delete button on desktop devices
- * - Smooth animations for state changes
- * 
- * @param props - The component props
- * @returns JSX element representing a single task item
- */
 export function TaskItem({ 
   task, 
   onToggle, 
@@ -41,25 +20,11 @@ export function TaskItem({
   isDeleting,
   isMoving
 }: TaskItemProps) {
-  // Initialize swipe-to-delete functionality
   const swipeHandlers = useSwipeToDelete({ 
     onDelete: () => onDelete(task.id),
     onSwipeOpen: onSwipeOpen
   })
 
-  /**
-   * Handles checkbox click to toggle task completion
-   * Prevents event bubbling to avoid triggering parent click handlers
-   */
-  const handleCheckboxClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    onToggle(task.id, task.completed)
-  }
-
-  /**
-   * Handles hover delete button click
-   * Prevents event bubbling and triggers deletion
-   */
   const handleHoverDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation()
     onDelete(task.id)
@@ -73,21 +38,21 @@ export function TaskItem({
       onTouchMove={swipeHandlers.handleTouchMove}
       onTouchEnd={swipeHandlers.handleTouchEnd}
     >
-      {/* Main task content area */}
       <div 
         className="task-content flex items-start gap-2 p-2 rounded cursor-pointer" 
         onClick={swipeHandlers.handleTaskClick}
       >
-        {/* Design system checkbox for task completion */}
         <Checkbox
           checked={task.completed}
-          onCheckedChange={() => onToggle(task.id, task.completed)}
-          onClick={handleCheckboxClick}
+          onCheckedChange={(nextCompleted) => {
+            if (typeof nextCompleted === 'boolean') {
+              onToggle(task.id, nextCompleted)
+            }
+          }}
           className="mt-1"
           aria-label={`Mark task "${task.text}" as ${task.completed ? 'incomplete' : 'complete'}`}
         />
 
-        {/* Task text with conditional styling for completed tasks */}
         <span 
           className={`task-text flex-1 ${
             task.completed ? 'completed-task' : ''
@@ -97,7 +62,6 @@ export function TaskItem({
         </span>
       </div>
       
-      {/* Swipe delete button (revealed on touch devices when swiped) */}
       <button
         className="delete-button"
         onClick={swipeHandlers.handleDeleteClick}
@@ -119,7 +83,6 @@ export function TaskItem({
         </svg>
       </button>
 
-      {/* Hover delete button (visible on desktop devices when hovering) */}
       <button
         className="hover-delete-button"
         onClick={handleHoverDeleteClick}
@@ -142,4 +105,4 @@ export function TaskItem({
       </button>
     </div>
   )
-} 
+}
