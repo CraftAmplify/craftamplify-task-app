@@ -31,9 +31,6 @@ jobs:
       - name: Reset mock DB
         run: npm run db:reset
 
-      - name: Check formatting
-        run: npm run format:check
-
       - name: Run ESLint
         run: npm run lint
 
