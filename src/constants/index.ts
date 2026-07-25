@@ -1,6 +1,5 @@
 export const API_CONFIG = {
-  BASE_URL: 'http://localhost:3000',
-  TIMEOUT: 5000
+  BASE_URL: 'http://localhost:3000'
 } as const
 
 export const ANIMATION = {
